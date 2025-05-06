@@ -1,0 +1,28 @@
+Initial Setup
+Install React
+npm create vite@latest my-react-app --template react
+> react > javascript
+
+npm install
+
+Install Tailwind with PostCSS
+npm install -D tailwindcss@^3 postcss autoprefixer
+
+Create tailwind.config.js & postcss.config.js
+npx tailwindcss init -p
+
+Config tailwind.config.js to set what files to scane to build
+import tailwind into index.css
+
+----------------------------------------------
+
+Install React Router DOM
+npm install react-router-dom
+
+----------------------------------------------
+
+Install React Hook Form
+npm install yup @hookform/resolvers
+
+Install Yup
+npm install yup @hookform/resolvers
