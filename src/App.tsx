@@ -1,11 +1,11 @@
 // 1. React and React ecosystem imports
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+//import { useState } from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import { useRoutes } from 'react-router-dom'
 
 // 2. Asset imports
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+//import reactLogo from './assets/react.svg'
+//import viteLogo from '/vite.svg'
 import './App.css'
 import './styles/global.css'
 
