@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import type { ChangeEvent } from 'react';
 
-import Logo from '../components/Logo'
-import ThemeModeButton from '../components/ThemeModeButton'
+import Logo from '@/components/Logo'
+import ThemeModeButton from '@/components/ThemeModeButton'
 
 function Header() {
   const [headerSearch, setHeaderSearch] = useState('');
