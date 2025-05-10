@@ -1,0 +1,33 @@
+@layer base {
+  .food-card,
+  .food-category-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow;
+  }
+
+  .food-card .food-thumb {
+    @apply bg-gray-200 dark:bg-gray-700 h-48 flex items-center justify-center;
+  }
+
+  .food-card .food-name {
+    @apply text-xl font-semibold dark:text-white;
+  }
+
+  .food-card .food-calories {
+    @apply text-orange-500 font-bold dark:text-orange-400;
+  }
+
+  .food-card.food-macro {
+    @apply flex items-center;
+  }
+
+  .food-card .food-macro-text {
+    @apply text-sm dark:text-gray-300;
+  }
+  .food-card .food-category {
+    @apply inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300;
+  }
+
+  .food-category-card .food-category-name {
+    @apply text-base font-semibold dark:text-white;
+  }
+}
