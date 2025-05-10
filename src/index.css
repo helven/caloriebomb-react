@@ -1,4 +1,4 @@
-@import './styles/food.css';
+@import '@/styles/food.css';
 
 @tailwind base;
 @tailwind components;

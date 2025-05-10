@@ -1,6 +1,6 @@
 // @ts-nocheck : JS compatible
 import { useState, useEffect } from 'react';
-import ThemeContext from './ThemeContext';
+import ThemeContext from '@/context/Theme/ThemeContext';
 
 function ThemeProvider({ children }) {
   const [themeMode, setThemeMode] = useState(() => {

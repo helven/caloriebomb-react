@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom'
 
-//import { useTheme } from "../hooks/useTheme";
-import Header from '../components/Header'
-import Logo from '../components/Logo'
+//import { useTheme } from "@/hooks/useTheme";
+import Header from '@/components/Header'
+import Logo from '@/components/Logo'
 
 function MainLayout({ children }) {
   //const theme = useTheme();

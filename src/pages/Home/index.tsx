@@ -2,9 +2,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 //import { useMemo } from 'react'
-import { mockFoods } from "../../data/mockData";
-import SearchButton from './components/SearchButton';
-import FoodCard from '../../components/FoodCard';
+import { mockFoods } from "@/data/mockData";
+import SearchButton from '@/pages/Home/components/SearchButton';
+import FoodCard from '@/components/FoodCard';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,7 +24,7 @@ function Home() {
 
   return (
     <>
-      <section id="aaa" className="py-16 text-center">
+      <section className="py-16 text-center">
         <h2 className="text-4xl font-bold mb-4 dark:text-white">Find Your Food's Kaboom <span className="inline-block">💣</span></h2>
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
