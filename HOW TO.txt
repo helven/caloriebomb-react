@@ -24,5 +24,9 @@ npm install react-router-dom
 Install React Hook Form
 npm install yup @hookform/resolvers
 
+Install Zustand
+npm install zustand
+
 Install Yup
 npm install yup @hookform/resolvers
+
