@@ -1,13 +1,20 @@
 // @ts-nocheck : JS compatible
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Outlet } from 'react-router-dom'
 
 //import { useTheme } from "@/hooks/useTheme";
-import Header from '@/components/Header'
+import useAppStore from '@/stores/useAppStore'
+import Header from '@/layouts/components/Header'
 import Logo from '@/components/Logo'
 
 function MainLayout({ children }) {
   //const theme = useTheme();
+  const { themeMode, setThemeMode } = useAppStore();
+
+  useEffect(() => {
+    localStorage.setItem('themeMode', themeMode);
+    document.documentElement.classList.toggle('dark', themeMode === 'dark');
+  }, [themeMode]);
 
   return (
     <div className="flex flex-col min-h-screen w-full h-full">

@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 //import { useMemo } from 'react'
 import { mockFoods } from "@/data/mockData";
-import SearchButton from '@/pages/Home/components/SearchButton';
 import FoodCard from '@/components/FoodCard';
+import SearchBar from '@/pages/Home/components/SearchBar';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,14 +29,7 @@ function Home() {
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
           <div className="relative">
-            <input
-              value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Search for any food..."
-              className="w-full pl-4 pr-10 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              type="text"
-            />
-            <SearchButton className="absolute" />
+            <SearchBar />
           </div>
         </div>
       </section>
