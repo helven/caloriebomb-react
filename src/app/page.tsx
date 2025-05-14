@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 //import { useMemo } from 'react'
 import { mockFoods } from "@/data/mockData";
 import FoodCard from '@/components/FoodCard';
-import SearchBar from '@/pages/Home/components/SearchBar';
+import SearchBar from '@/app/home/components/SearchBar';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,12 +54,14 @@ function Home() {
       <section className="container mx-auto px-4 py-12">
         <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">Browse by Category</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <a className="food-category-card" href="/category/fruits">
+          <Link
+            to="/foods?category=fruits"
+            className="food-category-card">
             <div className="rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
               <div className="text-4xl mb-3">🍎</div>
               <h4 className="food-category-name">Fruits</h4>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
     </>
