@@ -27,9 +27,9 @@ body {
     --primary: oklch(0.7 0.19 47.6);
     --primary-hover: oklch(0.646 0.222 41.116);
     --primary-foreground: oklch(0.98 0 0);
-    --secondary: oklch(0.96 0 0);
+    --secondary: oklch(1 0 0);
     --secondary-foreground: oklch(0.23 0 0);
-    --secondary-hover:oklch(0.98 0.02 72.96);
+    --secondary-hover:oklch(0.93 0.00 0);
     --anchor-foreground: oklch(0.40 0.03 250.65);
     --muted: oklch(0.96 0 0);
     --muted-foreground: oklch(0.51 0 0);
@@ -58,8 +58,8 @@ body {
     --primary: oklch(0.7 0.19 47.6);
     --primary-hover: oklch(0.646 0.222 41.116);
     --primary-foreground: oklch(1 0 0);
-    --secondary: oklch(0.149 0 0);
-    --secondary-hover: oklch(0.3 0 0);
+    --secondary: oklch(0.37 0.03 259.76);
+    --secondary-hover: oklch(0.28 0.03 256.87);
     --secondary-foreground: oklch(0.98 0 0);
     --anchor-foreground: oklch(0.71 0.015 255.09);
     --muted: oklch(0.149 0 0);
@@ -95,7 +95,7 @@ body {
 
   button.btn,
   a.btn {
-    @apply inline-block px-6 py-3 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600 transition-colors;
+    @apply px-6 py-3 bg-orange-500 text-white font-medium rounded-md transition-colors;
   }
 
   button.btn-primary,
@@ -103,7 +103,7 @@ body {
     @apply bg-primary text-primary-foreground;
   }
 
-  button.btn-secondary
+  button.btn-secondary,
   a.btn-secondary {
     @apply bg-secondary text-secondary-foreground;
   }
@@ -113,7 +113,7 @@ body {
     @apply bg-primaryHover text-primary-foreground;
   }
 
-  button.btn-secondary
+  button.btn-secondary:hover,
   a.btn-secondary:hover {
     @apply bg-secondaryHover text-secondary-foreground;
   }
