@@ -1,8 +1,13 @@
 // @ts-nocheck : JS compatible
+// 1. React and React ecosystem imports
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 //import { useMemo } from 'react'
+
+// 2. Asset imports
 import { mockFoods } from "@/data/mockData";
+
+// 3. Component imports
+import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/app/home/components/SearchBar';
 
@@ -47,7 +52,7 @@ function Home() {
             ))}
         </div>
         <div className="text-center mt-8">
-          <Link to={`foods`} className="btn btn-primary" href="/foods">View All Foods</Link>
+          <Link href={`/foods`} className="btn btn-primary" href="/foods">View All Foods</Link>
         </div>
       </section>
 
@@ -55,7 +60,7 @@ function Home() {
         <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">Browse by Category</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link
-            to="/foods?category=fruits"
+            href="/foods?category=fruits"
             className="food-category-card">
             <div className="rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
               <div className="text-4xl mb-3">🍎</div>

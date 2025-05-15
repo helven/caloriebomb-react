@@ -1,10 +1,10 @@
-import { useNavigate, useLocation } from 'react-router-dom';
 import useAppStore from '@/stores/useAppStore';
+import { useNavigationService } from '@/services/navigation';
 
 export const useSearch = () => {
   const { setSearchQuery } = useAppStore();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigation = useNavigationService();
+  
 
   const performSearch = (query: string) => {
     if (query.trim() === '') {
@@ -14,7 +14,7 @@ export const useSearch = () => {
     setSearchQuery(query);
 
     if (location.pathname !== '/foods') {
-      navigate('/foods');
+      navigation.navigate('/foods');
       // Perform search logic here
     }
   };

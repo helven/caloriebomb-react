@@ -1,4 +1,4 @@
-// Typescript
+// Typescript file
 // Zustand store for managing application state
 import { create } from 'zustand'
 
