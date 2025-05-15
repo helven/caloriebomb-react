@@ -52,7 +52,7 @@ function Home() {
             ))}
         </div>
         <div className="text-center mt-8">
-          <Link href={`/foods`} className="btn btn-primary" href="/foods">View All Foods</Link>
+          <Link href={`/foods`} className="btn btn-primary">View All Foods</Link>
         </div>
       </section>
 
