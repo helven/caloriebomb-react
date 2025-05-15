@@ -1,3 +1,4 @@
+// @ts-nocheck : JS compatible
 import useAppStore from '@/stores/useAppStore';
 import { useNavigationService } from '@/services/navigation';
 
@@ -6,14 +7,13 @@ export const useSearch = () => {
   const navigation = useNavigationService();
   
 
-  const performSearch = (query: string) => {
-    if (query.trim() === '') {
-      return;
-    }
-
+  const performSearch = (query) => {
     setSearchQuery(query);
 
     if (location.pathname !== '/foods') {
+      if (query.trim() === '') {
+        return;
+      }
       navigation.navigate('/foods');
       // Perform search logic here
     }

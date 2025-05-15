@@ -33,7 +33,7 @@ function FoodCard({ food }) {
             <Link
               href={`foods/category/${food.category}`}
               className="food-category">
-              {food.category}
+              {food.category_name}
             </Link>
           </div>
         </div>

@@ -2,7 +2,11 @@
 import { useState, useEffect, useRef } from 'react';
 import type { ChangeEvent } from 'react';
 
+// 2. Asset imports
 import Logo from '@/components/Logo'
+
+// 3. Component imports
+import { Link } from '@/components/common/Link';
 import HeaderSearchBar from '@/layouts/components/HeaderSearchBar';
 import ThemeModeButton from '@/components/ThemeModeButton'
 
@@ -35,9 +39,9 @@ function Header() {
       className={`${isScrolled ? "fixed top-0 left-0 right-0 z-50 backdrop-blur-sm" : ""} bg-card shadow-sm`}
     >
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <a className="flex items-center" href="/">
+        <Link href="/" className="flex items-center">
           <Logo />
-        </a>
+        </Link>
         <div className="flex items-center">
           <div className="relative mr-4">
             <HeaderSearchBar />

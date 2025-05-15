@@ -1,24 +1,57 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 //import { useMemo } from 'react'
 
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
 
 // 3. Component imports
+import useAppStore from '@/stores/useAppStore';
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
-import SearchBar from '@/app/home/components/SearchBar';
+import SearchBar from '@/components/SearchBar';
 
 function FoodList() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchQuery, setSearchQuery } = useAppStore();
+  const [category, setCategory] = useState('');
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState('asc');
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
+  //const handleSearch = (event) => {
+  //  setSearchQuery(event.target.value);
+  //};
 
   const [foods, setFoods] = useState([]);
+
+  const filteredAndSortedFoods = useMemo(() => {
+    return foods
+      .filter(food => {
+        // Check category
+        if (category && category !== '') {
+          if (food.category !== category) {
+            return false;
+          }
+        }
+
+        // Check search query
+        if (searchQuery && searchQuery !== '') {
+          return food.name.toLowerCase().includes(searchQuery.toLowerCase());
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        const aValue = a[sortBy];
+        const bValue = b[sortBy];
+
+        if (sortOrder === 'asc') {
+          return aValue > bValue ? 1 : -1;
+        } else {
+          return aValue < bValue ? 1 : -1;
+        }
+      });
+  }, [foods, category, sortBy, sortOrder, searchQuery]);
 
   useEffect(() => {
     setFoods(mockFoods);
@@ -51,18 +84,35 @@ function FoodList() {
         </div>
         <div className="bg-card rounded-lg shadow-md p-4 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4"><div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
-            <select className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md" data-sharkid="__1">
-              <option value="All">All</option>
-              <option value="Fruits">Fruits</option><option value="Meat">Meat</option>
-              <option value="Fast Food">Fast Food</option>
-              <option value="Healthy">Healthy</option>
-              <option value="Grains">Grains</option>
+            <label className="block text-sm font-medium mb-1">Category</label>
+            <select
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="beverage">Beverage</option>
+              <option value="condiments">Condiments</option>
+              <option value="cream_crackers">Cream Crackers</option>
+              <option value="dairy">Dairy</option>
+              <option value="dessert">Dessert</option>
+              <option value="fruit">Fruit</option>
+              <option value="grain">Grain</option>
+              <option value="meat">Meat</option>
+              <option value="misc">Misc</option>
+              <option value="oils-fats">Oils Fats</option>
+              <option value="seafood">Seafood</option>
+              <option value="snack">Snack</option>
+              <option value="vegetable">Vegetable</option>
             </select>
           </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
-              <select className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md" data-sharkid="__2">
+              <label className="block text-sm font-medium mb-1">Sort By</label>
+              <select
+                className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
                 <option value="name">Name</option>
                 <option value="calories">Calories</option>
                 <option value="protein">Protein</option>
@@ -71,8 +121,12 @@ function FoodList() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort Order</label>
-              <select className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md" data-sharkid="__3">
+              <label className="block text-sm font-medium mb-1">Sort Order</label>
+              <select
+                className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+              >
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
               </select>
@@ -83,8 +137,7 @@ function FoodList() {
 
       <section className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {foods
-            .sort(() => 0.5 - Math.random())
+          {filteredAndSortedFoods
             .map((food) => (
               <FoodCard key={food.id} food={food} />
             ))}

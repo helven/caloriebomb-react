@@ -21,7 +21,7 @@ body {
     --background: oklch(0.98 0.02 72.96);
     --foreground: oklch(0 0 0);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.157 0 0);
+    --card-foreground: oklch(0.40 0.03 250.65);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.157 0 0);
     --primary: oklch(0.7 0.19 47.6);
@@ -52,7 +52,7 @@ body {
     --background: oklch(0.23 0.05 256.87);
     --foreground: oklch(0.71 0.015 255.09);
     --card: oklch(0.28 0.03 256.87);
-    --card-foreground: oklch(0.98 0 0);
+    --card-foreground: oklch(0.71 0.015 255.09);
     --popover: oklch(0.039 0 0);
     --popover-foreground: oklch(0.98 0 0);
     --primary: oklch(0.7 0.19 47.6);
@@ -116,5 +116,9 @@ body {
   button.btn-secondary:hover,
   a.btn-secondary:hover {
     @apply bg-secondaryHover text-secondary-foreground;
+  }
+
+  .bg-card * {
+    @apply text-card-foreground;
   }
 }

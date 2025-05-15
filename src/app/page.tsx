@@ -9,7 +9,7 @@ import { mockFoods } from "@/data/mockData";
 // 3. Component imports
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
-import SearchBar from '@/app/home/components/SearchBar';
+import SearchBar from '@/components/SearchBar';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');

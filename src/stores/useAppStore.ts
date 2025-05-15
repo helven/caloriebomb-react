@@ -14,7 +14,7 @@ interface AppState {
   fontSize: string;
   setFontSize: (fontSize: string) => void;
   searchQuery: string;
-  setSearchQuery: (siteSearch: string) => void;
+  setSearchQuery: (query: string) => void;
 }
 
 const useAppStore = create<AppState>((set) => {
@@ -52,10 +52,10 @@ const useAppStore = create<AppState>((set) => {
       }
     }),
     searchQuery: '',
-    setSearchQuery: (searchQuery: string) => set((state: AppState) => {
+    setSearchQuery: (query: string) => set((state: AppState) => {
       return {
         ...state,
-        searchQuery: searchQuery
+        searchQuery: query
       }
     })
   }

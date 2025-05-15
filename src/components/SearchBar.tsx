@@ -4,7 +4,7 @@ import useAppStore from '@/stores/useAppStore';
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
 
-function HeaderSearchBar() {
+function SearchBar() {
   const { searchQuery, setSearchQuery } = useAppStore();
   const [localSearchValue, setLocalSearchValue] = useState(searchQuery); // set localSearchValue from searchQuery
 
@@ -39,12 +39,17 @@ function HeaderSearchBar() {
         value={localSearchValue}
         onChange={(e) => handleInputChange(e.target.value)}
         onKeyDown={(e) => handleInputKeyDown(e)}
-        placeholder="Search for foods..."
-        className="pl-3 pr-10 py-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 w-64"
+        placeholder="Search for any food..."
+        className="w-full pl-4 pr-10 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
       />
-      <SearchButton className="absolute text-gray-400" width="16" height="16" onClick={handleSearchClick} />
+      <SearchButton
+        className="absolute btn-primary text-white"
+        width="24"
+        height="24"
+        onClick={handleSearchClick}
+      />
     </>
   );
 }
 
-export default HeaderSearchBar;
+export default SearchBar;
