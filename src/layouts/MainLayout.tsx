@@ -9,10 +9,13 @@ import Logo from '@/components/Logo'
 
 function MainLayout({ children }) {
   //const theme = useTheme();
-  const { themeMode, setThemeMode } = useAppStore();
+  const { initApp, themeMode } = useAppStore();
 
   useEffect(() => {
-    localStorage.setItem('themeMode', themeMode);
+    initApp();
+  }, []);
+
+  useEffect(() => {
     document.documentElement.classList.toggle('dark', themeMode === 'dark');
   }, [themeMode]);
 
