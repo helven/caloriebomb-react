@@ -1,6 +1,11 @@
 // @ts-nocheck : JS compatible
-import { useState, useEffect } from 'react';
+// 1. React and React ecosystem imports
+import { useState, useEffect, useRef } from 'react';
+
+// 2. Asset imports
 import useAppStore from '@/stores/useAppStore';
+
+// 3. Component imports
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
 
@@ -9,6 +14,7 @@ function SearchBar() {
   const [localSearchValue, setLocalSearchValue] = useState(searchQuery); // set localSearchValue from searchQuery
 
   const { performSearch } = useSearch();
+    const timerRef = useRef(null);
 
   // Sync local state with store when searchQuery changes
   useEffect(() => {
@@ -23,6 +29,15 @@ function SearchBar() {
   // Search input change handler
   const handleInputChange = (value) => {
     setLocalSearchValue(value);
+    if (value === '') {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      timerRef.current = setTimeout(() => {
+        performSearch(value);
+        timerRef.current = null;
+      }, 100);
+    }
   };
 
   // Search input key down handler
