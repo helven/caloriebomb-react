@@ -5,22 +5,21 @@ import { useState, useEffect, useMemo } from 'react';
 
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
+import useAppStore from '@/stores/useAppStore';
 
 // 3. Component imports
-import useAppStore from '@/stores/useAppStore';
+import { useNavigationService } from '@/services/navigation';
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
 
 function FoodList() {
-  const { searchQuery, setSearchQuery } = useAppStore();
-  const [category, setCategory] = useState('');
-  const [sortBy, setSortBy] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const navigation = useNavigationService();
+  const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
+  const [category, setCategory] = useState(navigation.getQueryString('category') || '');
+  const [sortBy, setSortBy] = useState(navigation.getQueryString('sortby') || 'name');
+  const [sortOrder, setSortOrder] = useState(navigation.getQueryString('sortorder') || 'asc');
 
-  //const handleSearch = (event) => {
-  //  setSearchQuery(event.target.value);
-  //};
 
   const [foods, setFoods] = useState([]);
 
@@ -35,8 +34,8 @@ function FoodList() {
         }
 
         // Check search query
-        if (searchQuery && searchQuery !== '') {
-          return food.name.toLowerCase().includes(searchQuery.toLowerCase());
+        if (globalSearchQuery && globalSearchQuery !== '') {
+          return food.name.toLowerCase().includes(globalSearchQuery.toLowerCase());
         }
 
         return true;
@@ -51,7 +50,7 @@ function FoodList() {
           return aValue < bValue ? 1 : -1;
         }
       });
-  }, [foods, category, sortBy, sortOrder, searchQuery]);
+  }, [foods, category, sortBy, sortOrder, globalSearchQuery]);
 
   useEffect(() => {
     setFoods(mockFoods);
@@ -64,7 +63,7 @@ function FoodList() {
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
           <div className="relative">
-            <SearchBar />
+            <SearchBar handleUrlSearch="true" />
           </div>
         </div>
       </section>

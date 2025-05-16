@@ -31,7 +31,7 @@ function FoodCard({ food }) {
           </div>
           <div className="mt-3 text-left">
             <Link
-              href={`foods/category/${food.category}`}
+              href={`/foods?category=${food.category}`}
               className="food-category">
               {food.category_name}
             </Link>

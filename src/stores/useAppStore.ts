@@ -13,8 +13,8 @@ interface AppState {
   setThemeMode: () => void;
   fontSize: string;
   setFontSize: (fontSize: string) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
+  globalSearchQuery: string;
+  setGlobalSearchQuery: (query: string) => void;
 }
 
 const useAppStore = create<AppState>((set) => {
@@ -51,11 +51,11 @@ const useAppStore = create<AppState>((set) => {
         fontSize: fontSize
       }
     }),
-    searchQuery: '',
-    setSearchQuery: (query: string) => set((state: AppState) => {
+    globalSearchQuery: '',
+    setGlobalSearchQuery: (query: string) => set((state: AppState) => {
       return {
         ...state,
-        searchQuery: query
+        globalSearchQuery: query
       }
     })
   }

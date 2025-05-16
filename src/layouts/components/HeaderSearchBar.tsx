@@ -6,20 +6,17 @@ import { useState, useEffect, useRef } from 'react';
 import useAppStore from '@/stores/useAppStore';
 
 // 3. Component imports
+import { useNavigationService } from '@/services/navigation';
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
 
 function HeaderSearchBar() {
-  const { searchQuery, setSearchQuery } = useAppStore();
-  const [localSearchValue, setLocalSearchValue] = useState(searchQuery); // set localSearchValue from searchQuery
+  const navigation = useNavigationService();
+  const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
+  const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery); // set localSearchValue from globalSearchQuery
 
   const { performSearch } = useSearch();
   const timerRef = useRef(null);
-
-  // Sync local state with store when searchQuery changes
-  useEffect(() => {
-    setLocalSearchValue(searchQuery);
-  }, [searchQuery]);
 
   // Search button click handler
   const handleSearchClick = () => {

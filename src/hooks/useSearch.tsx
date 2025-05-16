@@ -1,16 +1,21 @@
 // @ts-nocheck : JS compatible
+// 1. React and React ecosystem imports
+
+// 2. Asset imports
 import useAppStore from '@/stores/useAppStore';
+
+// 3. Component imports
 import { useNavigationService } from '@/services/navigation';
 
 export const useSearch = () => {
-  const { setSearchQuery } = useAppStore();
+  const { setGlobalSearchQuery } = useAppStore();
   const navigation = useNavigationService();
   
 
   const performSearch = (query) => {
-    setSearchQuery(query);
+    setGlobalSearchQuery(query);
 
-    if (location.pathname !== '/foods') {
+    if (navigation.getCurrentPath() !== '/foods') {
       if (query.trim() === '') {
         return;
       }

@@ -6,20 +6,32 @@ import { useState, useEffect, useRef } from 'react';
 import useAppStore from '@/stores/useAppStore';
 
 // 3. Component imports
+import { useNavigationService } from '@/services/navigation';
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
 
-function SearchBar() {
-  const { searchQuery, setSearchQuery } = useAppStore();
-  const [localSearchValue, setLocalSearchValue] = useState(searchQuery); // set localSearchValue from searchQuery
+function SearchBar({ handleUrlSearch = false }) {
+  const navigation = useNavigationService();
+  const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
+  const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery); // set localSearchValue from globalSearchQuery
 
   const { performSearch } = useSearch();
-    const timerRef = useRef(null);
+  const timerRef = useRef(null);
 
-  // Sync local state with store when searchQuery changes
   useEffect(() => {
-    setLocalSearchValue(searchQuery);
-  }, [searchQuery]);
+    if (handleUrlSearch) { // only handle URL search when only allowed one is reacting to the URL search
+      handleSearchQueryString();
+    }
+  }, []);
+
+  // Search Query String handler
+  const handleSearchQueryString = () => {
+    const search = navigation.getQueryString('search');
+    if (search) {
+      setLocalSearchValue(search);
+      performSearch(search);
+    }
+  };
 
   // Search button click handler
   const handleSearchClick = () => {
@@ -29,6 +41,7 @@ function SearchBar() {
   // Search input change handler
   const handleInputChange = (value) => {
     setLocalSearchValue(value);
+
     if (value === '') {
       if (timerRef.current) {
         clearTimeout(timerRef.current);

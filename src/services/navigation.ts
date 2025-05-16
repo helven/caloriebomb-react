@@ -6,7 +6,8 @@ export interface NavigationService {
   navigate: (path: string) => void;
   getCurrentPath: () => string;
   getParams: () => Record<string, string>;
-  getQueryString: () => URLSearchParams;  // Changed from getQueryParams
+  getQueryParams: () => URLSearchParams;
+  getQueryString: (param?: string) => string;
 }
 
 // Create a hook that handles all React Router dependencies
@@ -40,6 +41,7 @@ export const useNavigationService = (): NavigationService => {
     navigate: (path: string) => navigate(path),
     getCurrentPath: () => location.pathname,
     getParams: () => sanitizeParams(params),
-    getQueryString: () => searchParams
+    getQueryParams: () => searchParams,
+    getQueryString: (param?: string) => param ? (searchParams.get(param) ?? '') : '',
   };
 };
