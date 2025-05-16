@@ -1,18 +1,19 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
 import { useState, useEffect, useMemo, useRef } from 'react';
-//import { useMemo } from 'react'
 
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
 import useAppStore from '@/stores/useAppStore';
 
-// 3. Component imports
+// 3. Project services and utilities
 import { useNavigationService } from '@/services/navigation';
+
+// 4. Components and UI elements
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
-import ArrowProps from '@/components/props/ArrowProps';
+import Pagingation from '@/components/listing/Pagingation';
 
 function FoodList() {
   const navigation = useNavigationService();
@@ -23,13 +24,13 @@ function FoodList() {
   const filterRef = useRef(null);
 
   const [foods, setFoods] = useState([]);
+  const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(() => {
     const page = navigation.getQueryString('page');
     return page && Number(page) > 0 ? Number(page) : 1;
   });
   const [totalPages, setTotalPages] = useState(9);
-  const [isFilterVisible, setIsFilterVisible] = useState(true);
 
   // Set mock data to foods state
   useEffect(() => {
@@ -65,10 +66,13 @@ function FoodList() {
         }
       });
 
-    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-
     return filtered;
   }, [foods, category, sortBy, sortOrder, globalSearchQuery]);
+
+  // Calculate total pages separately to react to itemsPerPage changes
+  useEffect(() => {
+    setTotalPages(Math.ceil(filteredAndSortedFoods.length / itemsPerPage));
+  }, [filteredAndSortedFoods, itemsPerPage]);
 
   // Paginate food
   const paginatedFoods = useMemo(() => {
@@ -86,7 +90,7 @@ function FoodList() {
     if (currentPage > totalPages) {
       setCurrentPage(1);
     }
-  }, [currentPage, totalPages]);
+  }, [currentPage, totalPages, itemsPerPage]);
 
   return (
     <>
@@ -208,66 +212,17 @@ function FoodList() {
               ))}
           </div>
         </section>
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <label className="text-sm text-gray-600 dark:text-gray-400 mr-2">Foods per page:</label>
-              <select
-                value={itemsPerPage}
-                onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                className="p-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded"
-              >
-                <option value="6">6</option>
-                <option value="9">9</option>
-                <option value="12">12</option>
-                <option value="24">24</option>
-              </select>
-            </div>
-            <div className="flex items-center">
-              <ArrowProps type="left" disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
-              <div className="flex mx-2">
-                {(currentPage > 5) ? (
-                  <>
-                    <button
-                      className={`w-8 h-8 mx-1 rounded-md ${currentPage === 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
-                      onClick={() => setCurrentPage(1)}
-                    >
-                      1
-                    </button><span className="mx-2">...</span>
-                  </>
-                ) : ('')}
 
-                {(() => {
-                  const pagesButtons = [];
-
-                  for (let i = pagingStartIndex; i <= pagingEndIndex; i++) {
-                    pagesButtons.push(
-                      <button
-                        key={i + 1}
-                        className={`w-8 h-8 mx-1 rounded-md ${currentPage === i + 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
-                        onClick={() => setCurrentPage(i + 1)}
-                      >
-                        {i + 1}
-                      </button>
-                    )
-                  }
-                  return pagesButtons;
-                })()}
-
-                {(pagingEndIndex < totalPages - 1) ? (
-                  <>
-                    <span className="mx-2">...</span><button
-                      className={`w-8 h-8 mx-1 rounded-md ${currentPage === totalPages ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
-                      onClick={() => setCurrentPage(totalPages)}
-                    >
-                      {totalPages}
-                    </button>
-                  </>
-                ) : ('')}
-              </div>
-              <ArrowProps type="right" disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
-            </div>
-            <div className="mt-4 md:mt-0 text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</div>
-          </div>
+        <Pagingation
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={setItemsPerPage}
+          itemsPerPage={itemsPerPage}
+          pagingStartIndex={pagingStartIndex}
+          pagingEndIndex={pagingEndIndex}
+          textPerPage="Foods per page"
+        />
       </div>
     </>
   );
