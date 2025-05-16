@@ -37,6 +37,18 @@ function FoodList() {
     setFoods(mockFoods);
   }, []);
 
+  // Calculate total pages separately to react to itemsPerPage changes
+  useEffect(() => {
+    setTotalPages(Math.ceil(filteredAndSortedFoods.length / itemsPerPage));
+  }, [filteredAndSortedFoods, itemsPerPage]);
+
+  // When user nagivate to page beyond the total pages, reset to page 1
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages, itemsPerPage]);
+
   // Filter food
   const filteredAndSortedFoods = useMemo(() => {
     const filtered = foods
@@ -69,11 +81,6 @@ function FoodList() {
     return filtered;
   }, [foods, category, sortBy, sortOrder, globalSearchQuery]);
 
-  // Calculate total pages separately to react to itemsPerPage changes
-  useEffect(() => {
-    setTotalPages(Math.ceil(filteredAndSortedFoods.length / itemsPerPage));
-  }, [filteredAndSortedFoods, itemsPerPage]);
-
   // Paginate food
   const paginatedFoods = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
@@ -84,13 +91,6 @@ function FoodList() {
 
   const pagingStartIndex = Math.max(0, currentPage - 5);
   const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
-
-  // When user nagivate to page beyond the total pages, reset to page 1
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(1);
-    }
-  }, [currentPage, totalPages, itemsPerPage]);
 
   return (
     <>
