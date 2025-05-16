@@ -1,6 +1,6 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 //import { useMemo } from 'react'
 
 // 2. Asset imports
@@ -20,6 +20,7 @@ function FoodList() {
   const [category, setCategory] = useState(navigation.getQueryString('category') || '');
   const [sortBy, setSortBy] = useState(navigation.getQueryString('sortby') || 'name');
   const [sortOrder, setSortOrder] = useState(navigation.getQueryString('sortorder') || 'asc');
+  const filterRef = useRef(null);
 
   const [foods, setFoods] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(9);
@@ -28,6 +29,7 @@ function FoodList() {
     return page && Number(page) > 0 ? Number(page) : 1;
   });
   const [totalPages, setTotalPages] = useState(9);
+  const [isFilterVisible, setIsFilterVisible] = useState(true);
 
   // Set mock data to foods state
   useEffect(() => {
@@ -88,7 +90,7 @@ function FoodList() {
 
   return (
     <>
-      <section className="py-16 text-center">
+      <section className="page-header text-center ">
         <h2 className="text-4xl font-bold mb-4 dark:text-white">Find Your Food's Kaboom <span className="inline-block">💣</span></h2>
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
@@ -97,21 +99,35 @@ function FoodList() {
           </div>
         </div>
       </section>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold dark:text-white">All Foods</h1>
-          <button className="btn btn-secondary flex items-center px-3 py-2 rounded-md shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sliders-horizontal mr-2">
-              <line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line>
-              <line x1="8" x2="3" y1="12" y2="12"></line>
-              <line x1="21" x2="16" y1="20" y2="20"></line>
-              <line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line>
-              <line x1="16" x2="16" y1="18" y2="22"></line>
-            </svg>
-            Filters
-          </button>
+
+      <div className="container mx-auto grid grid-cols-1 gap-8 mb-8 px-4">
+        <div>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold dark:text-white">All Foods</h1>
+            <button
+              className="btn btn-secondary flex items-center px-3 py-2 rounded-md shadow-sm"
+              onClick={() => {
+                setIsFilterVisible(!isFilterVisible);
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sliders-horizontal mr-2">
+                <line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line>
+                <line x1="8" x2="3" y1="12" y2="12"></line>
+                <line x1="21" x2="16" y1="20" y2="20"></line>
+                <line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line>
+                <line x1="16" x2="16" y1="18" y2="22"></line>
+              </svg>
+              Filters
+            </button>
+          </div>
+          <div className="text-left text-sm text-gray-600 dark:text-gray-400">
+            Showing {paginatedFoods.length} of {filteredAndSortedFoods.length} foods
+          </div>
         </div>
-        <div className="bg-card rounded-lg shadow-md p-4 mb-6">
+
+
+        <div ref={filterRef}
+          className={`${isFilterVisible ? '' : 'hidden'} bg-card rounded-lg shadow-md p-4`}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4"><div>
             <label className="block text-sm font-medium mb-1">Category</label>
             <select
@@ -183,77 +199,76 @@ function FoodList() {
             </div>
           </div>
         </div>
-      </div>
 
-      <section className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {paginatedFoods
-            .map((food) => (
-              <FoodCard key={food.id} food={food} />
-            ))}
-        </div>
-
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <label className="text-sm text-gray-600 dark:text-gray-400 mr-2">Foods per page:</label>
-            <select
-              value={itemsPerPage}
-              onChange={(e) => setItemsPerPage(Number(e.target.value))}
-              className="p-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded"
-            >
-              <option value="6">6</option>
-              <option value="9">9</option>
-              <option value="12">12</option>
-              <option value="24">24</option>
-            </select>
+        <section>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedFoods
+              .map((food) => (
+                <FoodCard key={food.id} food={food} />
+              ))}
           </div>
-          <div className="flex items-center">
-            <ArrowProps type="left" disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
-            <div className="flex mx-2">
-              {(currentPage > 5) ? (
-                <>
-                  <button
-                    className={`w-8 h-8 mx-1 rounded-md ${currentPage === 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
-                    onClick={() => setCurrentPage(1)}
-                  >
-                    1
-                  </button><span className="mx-2">...</span>
-                </>
-              ) : ('')}
-
-              {(() => {
-                const pagesButtons = [];
-
-                for (let i = pagingStartIndex; i <= pagingEndIndex; i++) {
-                  pagesButtons.push(
-                    <button
-                      key={i + 1}
-                      className={`w-8 h-8 mx-1 rounded-md ${currentPage === i + 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
-                      onClick={() => setCurrentPage(i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  )
-                }
-                return pagesButtons;
-              })()}
-
-              {(pagingEndIndex < totalPages - 1) ? (
-                <>
-                  <span className="mx-2">...</span><button
-                    className={`w-8 h-8 mx-1 rounded-md ${currentPage === totalPages ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
-                    onClick={() => setCurrentPage(totalPages)}
-                  >
-                    {totalPages}
-                  </button>
-                </>
-              ) : ('')}
+        </section>
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <label className="text-sm text-gray-600 dark:text-gray-400 mr-2">Foods per page:</label>
+              <select
+                value={itemsPerPage}
+                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                className="p-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded"
+              >
+                <option value="6">6</option>
+                <option value="9">9</option>
+                <option value="12">12</option>
+                <option value="24">24</option>
+              </select>
             </div>
-            <ArrowProps type="right" disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
+            <div className="flex items-center">
+              <ArrowProps type="left" disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+              <div className="flex mx-2">
+                {(currentPage > 5) ? (
+                  <>
+                    <button
+                      className={`w-8 h-8 mx-1 rounded-md ${currentPage === 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                      onClick={() => setCurrentPage(1)}
+                    >
+                      1
+                    </button><span className="mx-2">...</span>
+                  </>
+                ) : ('')}
+
+                {(() => {
+                  const pagesButtons = [];
+
+                  for (let i = pagingStartIndex; i <= pagingEndIndex; i++) {
+                    pagesButtons.push(
+                      <button
+                        key={i + 1}
+                        className={`w-8 h-8 mx-1 rounded-md ${currentPage === i + 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                        onClick={() => setCurrentPage(i + 1)}
+                      >
+                        {i + 1}
+                      </button>
+                    )
+                  }
+                  return pagesButtons;
+                })()}
+
+                {(pagingEndIndex < totalPages - 1) ? (
+                  <>
+                    <span className="mx-2">...</span><button
+                      className={`w-8 h-8 mx-1 rounded-md ${currentPage === totalPages ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                      onClick={() => setCurrentPage(totalPages)}
+                    >
+                      {totalPages}
+                    </button>
+                  </>
+                ) : ('')}
+              </div>
+              <ArrowProps type="right" disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
+            </div>
+            <div className="mt-4 md:mt-0 text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</div>
           </div>
-          <div className="mt-4 md:mt-0 text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</div>
-        </div>
-      </section>
+      </div>
     </>
   );
 }

@@ -24,10 +24,10 @@ function FoodDetail() {
 
   const foodId = navigation.getParams().id ?? '';
   const food = mockFoods.find((food) => food.id === foodId);
-  
+
   return (
     <>
-      <section className="container mx-auto px-4 py-8">
+      <section className="page-breadcrumb">
         <div className="mb-6 flex justify-between">
           <Link href="/foods" className="flex items-center">
             <ArrowProps type="left" />
@@ -36,7 +36,12 @@ function FoodDetail() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 gap-8 mb-8 px-4">
+        <section>
+          <h1 className="text-3xl font-bold dark:text-white">{food.name}</h1>
+          <p className="text-lg text-gray-600">{food.description}</p>
+        </section>
+
         {(isComparing && food && compareFood) ? (
           <>
             {/* First Food */}
@@ -46,19 +51,20 @@ function FoodDetail() {
           </>
         ) : food ? (
           /* Food */
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="flex flex-col items-start">
-                <h1 className="text-4xl font-bold mb-2">{food.name}</h1>
-                <p className="text-lg text-gray-600">{food.description}</p>
-              </div>
-            </div>
-            {(food.image && food.image !== '') ? (
-              <div className="mt-8">
-                <img src={food.image} alt={food.name} className="w-full h-auto" />
-              </div>
+          <>
+            <section className="food-detail-card">
+              <div
+                className="food-thumb"
+                style={{
+                  backgroundImage: `url('/assets/images/bomb.svg')`,
+                  backgroundPosition: `65% 45%`,
+                  backgroundRepeat: `no-repeat`,
+                  backgroundSize: `65%`,
+                }}></div>
+            </section>
+            {(food.image && food.image !== '') ? (''
             ) : ('')}
-            <div className="mt-8">
+            <section className="food-detail-card p-6">
               <h2 className="text-2xl font-bold">Nutrition Facts</h2>
               <ul>
                 <li>Calories: {formatNutrient(food.calories_kcal)} kcal</li>
@@ -66,21 +72,33 @@ function FoodDetail() {
                 <li>Carbs: {formatNutrient(food.carbs_g)}g</li>
                 <li>Fat: {formatNutrient(food.fat_g)}g</li>
               </ul>
+            </section>
+
+            <div>
+              {/*<div className="flex mt-8 justify-center items-center space-x-4">
+                <button
+                  onClick={() => setShowCompareModal(true)}
+                  className="btn btn-primary"
+                >
+                  Compare
+                </button>
+              </div>*/}
             </div>
-            {/*<div className="flex mt-8 justify-center items-center space-x-4">
-              <button
-                onClick={() => setShowCompareModal(true)}
-                className="btn btn-primary"
-              >
-                Compare
-              </button>
-            </div>*/}
-          </div>
+          </>
         ) : (
           /* No Food */
           <div>No Food</div>
         )}
-      </section>
+
+
+
+      </div>
+
+      <div>
+        <section className="container mx-auto px-4 py-8">
+
+        </section>
+      </div>
     </>
   );
 }

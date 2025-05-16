@@ -30,7 +30,7 @@ function Home() {
 
   return (
     <>
-      <section className="py-16 text-center">
+      <section className="page-header text-center">
         <h2 className="text-4xl font-bold mb-4 dark:text-white">Find Your Food's Kaboom <span className="inline-block">💣</span></h2>
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
@@ -53,7 +53,7 @@ function Home() {
             ))}
         </div>
         <div className="text-center mt-8">
-          <Link href={`/foods`} className="btn btn-primary">View All Foods</Link>
+          <Link href={`/foods`} className="btn btn-primary">Browse All Foods</Link>
         </div>
       </section>
 
