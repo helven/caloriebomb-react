@@ -12,12 +12,6 @@ import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
 
 function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   const [foods, setFoods] = useState([]);
 
   useEffect(() => {
