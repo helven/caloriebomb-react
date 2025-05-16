@@ -1,12 +1,16 @@
 // @ts-nocheck : JS compatible
-// 1. React and React ecosystem imports
+// 1. React and Next.js core imports
 import { useState, useEffect } from 'react';
 
-// 2. Asset imports
+// 2. Third-party library imports
+// (none currently)
+
+// 3. Project services and utilities
+import { useNavigationService } from '@/services/navigation';
+import { formatNutrient } from '@/utils/formatters';
 import { mockFoods } from "@/data/mockData";
 
-// 3. Component imports
-import { useNavigationService } from '@/services/navigation';
+// 4. Components and UI elements
 import { Link } from '@/components/common/Link';
 import ArrowProps from '@/components/props/ArrowProps';
 
@@ -57,10 +61,10 @@ function FoodDetail() {
             <div className="mt-8">
               <h2 className="text-2xl font-bold">Nutrition Facts</h2>
               <ul>
-                <li>Calories: {food.calories_kcal} kcal</li>
-                <li>Protein: {food.protein_g} g</li>
-                <li>Carbs: {food.carbs_g} g</li>
-                <li>Fat: {food.fat_g} g</li>
+                <li>Calories: {formatNutrient(food.calories_kcal)} kcal</li>
+                <li>Protein: {formatNutrient(food.protein_g >= 1)}g</li>
+                <li>Carbs: {formatNutrient(food.carbs_g)}g</li>
+                <li>Fat: {formatNutrient(food.fat_g)}g</li>
               </ul>
             </div>
             {/*<div className="flex mt-8 justify-center items-center space-x-4">
