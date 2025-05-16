@@ -62,7 +62,7 @@ function FoodList() {
           return aValue < bValue ? 1 : -1;
         }
       });
-    console.log(Math.ceil(filtered.length / itemsPerPage));
+
     setTotalPages(Math.ceil(filtered.length / itemsPerPage));
 
     return filtered;
@@ -81,7 +81,7 @@ function FoodList() {
 
   // When user nagivate to page beyond the total pages, reset to page 1
   useEffect(() => {
-    if(currentPage > totalPages) {
+    if (currentPage > totalPages) {
       setCurrentPage(1);
     }
   }, [currentPage, totalPages]);
@@ -117,7 +117,14 @@ function FoodList() {
             <select
               className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                if (e.target.value) {
+                  navigation.updateQueryString('category', e.target.value);
+                } else {
+                  navigation.removeQueryString('category');
+                }
+              }}
             >
               <option value="">All</option>
               <option value="beverage">Beverage</option>
@@ -140,7 +147,14 @@ function FoodList() {
               <select
                 className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  if (e.target.value) {
+                    navigation.updateQueryString('sortby', e.target.value);
+                  } else {
+                    navigation.removeQueryString('sortby');
+                  }
+                }}
               >
                 <option value="name">Name</option>
                 <option value="calories_kcal">Calories</option>
@@ -154,7 +168,14 @@ function FoodList() {
               <select
                 className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
                 value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
+                onChange={(e) => {
+                  setSortOrder(e.target.value);
+                  if (e.target.value) {
+                    navigation.updateQueryString('sortorder', e.target.value);
+                  } else {
+                    navigation.removeQueryString('sortorder');
+                  }
+                }}
               >
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>

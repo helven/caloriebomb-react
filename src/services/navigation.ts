@@ -8,6 +8,8 @@ export interface NavigationService {
   getParams: () => Record<string, string>;
   getQueryParams: () => URLSearchParams;
   getQueryString: (param?: string) => string;
+  updateQueryString: (key: string, value: string) => void;
+  removeQueryString: (key: string) => void;
 }
 
 // Create a hook that handles all React Router dependencies
@@ -16,6 +18,18 @@ export const useNavigationService = (): NavigationService => {
   const location = useLocation();
   let params = useParams();
   const [searchParams] = useSearchParams();
+
+  const updateQueryString = (key: string, value: string) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set(key, value);
+    navigate(`${location.pathname}?${newSearchParams.toString()}`);
+  };
+
+  const removeQueryString = (key: string) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete(key);
+    navigate(`${location.pathname}?${newSearchParams.toString()}`);
+  };
 
   const sanitizeParams = (params: Record<string, string | null | undefined>): Record<string, string> => {
     if (!params) {
@@ -43,5 +57,7 @@ export const useNavigationService = (): NavigationService => {
     getParams: () => sanitizeParams(params),
     getQueryParams: () => searchParams,
     getQueryString: (param?: string) => param ? (searchParams.get(param) ?? '') : '',
+    updateQueryString: updateQueryString,
+    removeQueryString: removeQueryString,
   };
 };
