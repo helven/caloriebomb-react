@@ -54,11 +54,35 @@ function Home() {
         <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">Browse by Category</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link
-            href="/foods?category=fruits"
+            href="/foods?category=meat"
+            className="food-category-card">
+            <div className="rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">🥩</div>
+              <h4 className="food-category-name">Meat</h4>
+            </div>
+          </Link>
+          <Link
+            href="/foods?category=vegetable"
+            className="food-category-card">
+            <div className="rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">🥦</div>
+              <h4 className="food-category-name">Vegetable</h4>
+            </div>
+          </Link>
+          <Link
+            href="/foods?category=fruit"
             className="food-category-card">
             <div className="rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
               <div className="text-4xl mb-3">🍎</div>
-              <h4 className="food-category-name">Fruits</h4>
+              <h4 className="food-category-name">Fruit</h4>
+            </div>
+          </Link>
+          <Link
+            href="/foods?category=dessert"
+            className="food-category-card">
+            <div className="rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow">
+              <div className="text-4xl mb-3">🍰</div>
+              <h4 className="food-category-name">Dessert</h4>
             </div>
           </Link>
         </div>
