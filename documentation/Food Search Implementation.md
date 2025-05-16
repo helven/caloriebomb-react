@@ -7,15 +7,15 @@ The current implementation uses a dual-state approach for handling search functi
 
 ## Synchronization Flow
 1. User types in SearchBar → updates `localSearchValue`
-2. User submits search (Enter/Click) → `localSearchValue` updates `searchQuery` in store
-3. Foods page listens to `searchQuery` changes → filters food list
+2. User submits search (Enter/Click) → `localSearchValue` updates `globalSearchQuery` in store
+3. Foods page listens to `globalSearchQuery` changes → filters food list
 4. Other SearchBars sync with store via `useEffect`
 
 ## Implementation Details
 
 ### Local Search State
 ```tsx
-const [localSearchValue, setLocalSearchValue] = useState(searchQuery);
+const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery);
 ```
 - Used for immediate input handling
 - Independent between multiple SearchBar instances
@@ -23,7 +23,7 @@ const [localSearchValue, setLocalSearchValue] = useState(searchQuery);
 
 ### Global Search State
 ```tsx
-const { searchQuery, setSearchQuery } = useAppStore();
+const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
 ```
 - Shared across components
 - Used for actual search operations
