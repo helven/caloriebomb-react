@@ -1,7 +1,6 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
 import { useState, useEffect } from 'react';
-//import { useMemo } from 'react'
 
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
@@ -9,6 +8,7 @@ import { mockFoods } from "@/data/mockData";
 // 3. Component imports
 import { useNavigationService } from '@/services/navigation';
 import { Link } from '@/components/common/Link';
+import ArrowProps from '@/components/props/ArrowProps';
 
 function FoodDetail() {
   const [showCompareModal, setShowCompareModal] = useState(false);
@@ -20,25 +20,13 @@ function FoodDetail() {
 
   const foodId = navigation.getParams().id ?? '';
   const food = mockFoods.find((food) => food.id === foodId);
-  console.log('food', food);
+  
   return (
     <>
       <section className="container mx-auto px-4 py-8">
         <div className="mb-6 flex justify-between">
           <Link href="/foods" className="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-arrow-left mr-2 h-4 w-4">
-              <path d="m12 19-7-7 7-7"></path>
-              <path d="M19 12H5"></path>
-            </svg>
+            <ArrowProps type="left" />
             Back
           </Link>
         </div>

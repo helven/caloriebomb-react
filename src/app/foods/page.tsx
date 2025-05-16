@@ -12,6 +12,7 @@ import { useNavigationService } from '@/services/navigation';
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
+import ArrowProps from '@/components/props/ArrowProps';
 
 function FoodList() {
   const navigation = useNavigationService();
@@ -20,11 +21,22 @@ function FoodList() {
   const [sortBy, setSortBy] = useState(navigation.getQueryString('sortby') || 'name');
   const [sortOrder, setSortOrder] = useState(navigation.getQueryString('sortorder') || 'asc');
 
-
   const [foods, setFoods] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const page = navigation.getQueryString('page');
+    return page && Number(page) > 0 ? Number(page) : 1;
+  });
+  const [totalPages, setTotalPages] = useState(9);
 
+  // Set mock data to foods state
+  useEffect(() => {
+    setFoods(mockFoods);
+  }, []);
+
+  // Filter food
   const filteredAndSortedFoods = useMemo(() => {
-    return foods
+    const filtered = foods
       .filter(food => {
         // Check category
         if (category && category !== '') {
@@ -50,11 +62,29 @@ function FoodList() {
           return aValue < bValue ? 1 : -1;
         }
       });
+    console.log(Math.ceil(filtered.length / itemsPerPage));
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
+
+    return filtered;
   }, [foods, category, sortBy, sortOrder, globalSearchQuery]);
 
+  // Paginate food
+  const paginatedFoods = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    return filteredAndSortedFoods.slice(start, end);
+  }, [filteredAndSortedFoods, currentPage, itemsPerPage]);
+
+  const pagingStartIndex = Math.max(0, currentPage - 5);
+  const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
+
+  // When user nagivate to page beyond the total pages, reset to page 1
   useEffect(() => {
-    setFoods(mockFoods);
-  }, []);
+    if(currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
 
   return (
     <>
@@ -136,10 +166,71 @@ function FoodList() {
 
       <section className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredAndSortedFoods
+          {paginatedFoods
             .map((food) => (
               <FoodCard key={food.id} food={food} />
             ))}
+        </div>
+
+        <div className="mt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="mb-4 md:mb-0">
+            <label className="text-sm text-gray-600 dark:text-gray-400 mr-2">Foods per page:</label>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => setItemsPerPage(Number(e.target.value))}
+              className="p-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded"
+            >
+              <option value="6">6</option>
+              <option value="9">9</option>
+              <option value="12">12</option>
+              <option value="24">24</option>
+            </select>
+          </div>
+          <div className="flex items-center">
+            <ArrowProps type="left" disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} />
+            <div className="flex mx-2">
+              {(currentPage > 5) ? (
+                <>
+                  <button
+                    className={`w-8 h-8 mx-1 rounded-md ${currentPage === 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                    onClick={() => setCurrentPage(1)}
+                  >
+                    1
+                  </button><span className="mx-2">...</span>
+                </>
+              ) : ('')}
+
+              {(() => {
+                const pagesButtons = [];
+
+                for (let i = pagingStartIndex; i <= pagingEndIndex; i++) {
+                  pagesButtons.push(
+                    <button
+                      key={i + 1}
+                      className={`w-8 h-8 mx-1 rounded-md ${currentPage === i + 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                      onClick={() => setCurrentPage(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  )
+                }
+                return pagesButtons;
+              })()}
+
+              {(pagingEndIndex < totalPages - 1) ? (
+                <>
+                  <span className="mx-2">...</span><button
+                    className={`w-8 h-8 mx-1 rounded-md ${currentPage === totalPages ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                    onClick={() => setCurrentPage(totalPages)}
+                  >
+                    {totalPages}
+                  </button>
+                </>
+              ) : ('')}
+            </div>
+            <ArrowProps type="right" disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} />
+          </div>
+          <div className="mt-4 md:mt-0 text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</div>
         </div>
       </section>
     </>
