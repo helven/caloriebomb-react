@@ -113,10 +113,10 @@ function FoodList() {
                 onChange={(e) => setSortBy(e.target.value)}
               >
                 <option value="name">Name</option>
-                <option value="calories">Calories</option>
-                <option value="protein">Protein</option>
-                <option value="carbs">Carbs</option>
-                <option value="fat">Fat</option>
+                <option value="calories_kcal">Calories</option>
+                <option value="protein_g">Protein</option>
+                <option value="carbs_g">Carbs</option>
+                <option value="fat_g">Fat</option>
               </select>
             </div>
             <div>
