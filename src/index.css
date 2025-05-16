@@ -121,4 +121,12 @@ body {
   .bg-card * {
     @apply text-card-foreground;
   }
+
+  section.page-breadcrumb {
+    @apply container mx-auto px-4 mb-4;
+  }
+
+  section.page-header {
+    @apply py-16 px-4;
+  }
 }

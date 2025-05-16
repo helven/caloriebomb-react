@@ -30,4 +30,11 @@
   .food-category-card .food-category-name {
     @apply text-base font-semibold dark:text-white;
   }
+
+  .food-detail-card {
+    @apply bg-white dark:bg-gray-800 shadow-md overflow-hidden hover:shadow-lg transition-shadow;
+  }
+  .food-detail-card .food-thumb {
+    @apply bg-gray-200 dark:bg-gray-700 h-64 flex items-center justify-center;
+  }
 }
