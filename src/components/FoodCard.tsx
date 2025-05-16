@@ -1,4 +1,9 @@
 // @ts-nocheck : JS compatible
+// 1. React and React ecosystem imports
+
+// 2. Asset imports
+
+// 3. Component imports
 import { Link } from '@/components/common/Link';
 
 function FoodCard({ food }) {
@@ -7,7 +12,14 @@ function FoodCard({ food }) {
       <div className="food-card">
         <Link
           href={`/foods/${food.id}`}
-          className="food-thumb">
+          className="food-thumb"
+          style={{ 
+            backgroundImage: `url('/assets/images/bomb.svg')`,
+            backgroundPosition: `65% 45%`,
+            backgroundRepeat: `no-repeat`,
+            backgroundSize: `65%`,
+          }}
+        >
           {/*<span className="text-6xl">{food.thumb}</span>*/}
         </Link>
         <div className="p-4">
