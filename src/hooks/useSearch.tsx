@@ -14,10 +14,12 @@ export const useSearch = ({ redirectTo } = {}) => {
 
   const performSearch = (query) => {
     query = query.trim();
-    setGlobalSearchQuery(query); // only set the global search query when the search is performed
+     // Set the global search query when the search is performed
+     // globalSearchQuery is used by the listing to filter the results
+    setGlobalSearchQuery(query);
 
-    // If user is not on the foods page, redirect them there with the search query
-    // This handles searches initiated from home page or other pages
+    // Enable redirection to actual results page
+    // Eg This handles searches initiated from homepage and redirect to foods page for search result
     if (navigation.getCurrentPath() !== redirectTo) {
       if (query === '') {
         return;

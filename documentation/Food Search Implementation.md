@@ -9,7 +9,6 @@ The current implementation uses a dual-state approach for handling search functi
 ## Synchronization Flow
 1. On component mount, check for "search" query parameter in URL
    - If present, initialize `localSearchValue` with URL search value
-   - If not present, initialize with `globalSearchQuery`
 2. User types in SearchBar → updates `localSearchValue`
 3. User submits search (Enter/Click):
    - Updates `globalSearchQuery` in store with `localSearchValue`
@@ -59,9 +58,9 @@ const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
    - No URL updates
 
 2. **Search Submission (Enter/Button)**
-   - Updates `globalSearchQuery` with current `localSearchValue`
    - Updates URL search parameter
    - Redirects to /foods if needed
+   - Updates `globalSearchQuery` with final search value in useSearch() hook
    - Triggers search execution
 
 ## Pros

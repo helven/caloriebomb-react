@@ -16,7 +16,7 @@ function SearchBar({
 }) {
   const navigation = useNavigationService();
   const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
-  const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery); // set localSearchValue from globalSearchQuery
+  const [localSearchValue, setLocalSearchValue] = useState('');
 
   const { performSearch } = useSearch({
     redirectTo
