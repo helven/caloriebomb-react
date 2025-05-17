@@ -1,7 +1,7 @@
 @layer base {
   .food-card,
   .food-category-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow;
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden;
   }
 
   .food-card .food-thumb {
@@ -32,9 +32,9 @@
   }
 
   .food-detail-card {
-    @apply bg-white dark:bg-gray-800 shadow-md transition-shadow;
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md transition-shadow;
   }
   .food-detail-card .food-thumb {
-    @apply bg-gray-200 dark:bg-gray-700 h-64 flex items-center justify-center;
+    @apply bg-gray-200 dark:bg-gray-700 rounded-lg h-64 flex items-center justify-center;
   }
 }

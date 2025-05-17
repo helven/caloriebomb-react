@@ -128,7 +128,12 @@ function FoodList() {
       <div className="container mx-auto grid grid-cols-1 gap-8 mb-8 px-4">
         <div>
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold dark:text-white">All Foods</h1>
+            <div>
+              <h1 className="text-3xl font-bold dark:text-white">All Foods</h1>
+              <div className="text-left text-sm text-gray-600 dark:text-gray-400">
+                Showing {paginatedFoods.length} of {filteredAndSortedFoods.length} foods
+              </div>
+            </div>
             <button
               className="btn btn-secondary flex items-center px-3 py-2 rounded-md shadow-sm"
               onClick={() => {
@@ -144,9 +149,6 @@ function FoodList() {
               </svg>
               Filters
             </button>
-          </div>
-          <div className="text-left text-sm text-gray-600 dark:text-gray-400">
-            Showing {paginatedFoods.length} of {filteredAndSortedFoods.length} foods
           </div>
         </div>
 
