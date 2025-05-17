@@ -50,9 +50,9 @@ function FoodList() {
 
         return true;
       })
-      .sort((a, b) => {
-        const aValue = a[sortBy];
-        const bValue = b[sortBy];
+      .sort((a, b) => {console.log(sortBy)
+        const aValue = Number(a[sortBy]);
+        const bValue = Number(b[sortBy]);
 
         if (sortOrder === 'asc') {
           return aValue > bValue ? 1 : -1;
