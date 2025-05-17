@@ -75,6 +75,27 @@ function FoodList() {
   const pagingStartIndex = Math.max(0, currentPage - 5);
   const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
 
+  useEffect(() => {
+    const categoryFromUrl = navigation.getQueryString('category');
+    if (categoryFromUrl !== category) {
+      setCategory(categoryFromUrl || '');
+    }
+  }, [navigation.getQueryString('category')]);
+
+  useEffect(() => {
+    const sortByFromUrl = navigation.getQueryString('sortby');
+    if (sortByFromUrl !== sortBy) {
+      setCategory(sortByFromUrl || '');
+    }
+  }, [navigation.getQueryString('sortby')]);
+
+  useEffect(() => {
+    const sortOrderFromUrl = navigation.getQueryString('sortorder');
+    if (sortOrderFromUrl !== sortOrder) {
+      setCategory(sortOrderFromUrl || '');
+    }
+  }, [navigation.getQueryString('sortorder')]);
+
   // Set mock data to foods state
   useEffect(() => {
     setFoods(mockFoods);
