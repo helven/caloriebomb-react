@@ -10,12 +10,17 @@ import { useNavigationService } from '@/services/navigation';
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
 
-function SearchBar({ handleUrlSearch = false }) {
+function SearchBar({
+  handleUrlSearch = false,
+  redirectTo = '',
+}) {
   const navigation = useNavigationService();
   const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
   const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery); // set localSearchValue from globalSearchQuery
 
-  const { performSearch } = useSearch();
+  const { performSearch } = useSearch({
+    redirectTo
+  });
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -25,21 +30,24 @@ function SearchBar({ handleUrlSearch = false }) {
   }, []);
 
   // Search Query String handler
+  // Sets it to localSearchValue and performs search
   const handleSearchQueryString = () => {
-    const search = navigation.getQueryString('search');
-    if (search) {
-      setLocalSearchValue(search);
-      performSearch(search);
-    }
-  };
+    let value: string | undefined;
 
-  // Search button click handler
-  const handleSearchClick = () => {
-    performSearch(localSearchValue);
+    value = navigation.getQueryString('search') ?? ''
+    value = value.trim();
+
+    if (!value) {
+      return;
+    }
+
+    setLocalSearchValue(value);
+    performSearch(value);
   };
 
   // Search input change handler
   const handleInputChange = (value) => {
+    value = value.trim();
     setLocalSearchValue(value);
 
     if (value === '') {
@@ -51,6 +59,11 @@ function SearchBar({ handleUrlSearch = false }) {
         timerRef.current = null;
       }, 100);
     }
+  };
+
+  // Search button click handler
+  const handleSearchClick = () => {
+    performSearch(localSearchValue);
   };
 
   // Search input key down handler

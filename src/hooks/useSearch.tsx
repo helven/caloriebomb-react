@@ -7,21 +7,22 @@ import useAppStore from '@/stores/useAppStore';
 // 3. Component imports
 import { useNavigationService } from '@/services/navigation';
 
-export const useSearch = () => {
+export const useSearch = ({ redirectTo } = {}) => {
   const { setGlobalSearchQuery } = useAppStore();
   const navigation = useNavigationService();
   
 
   const performSearch = (query) => {
-    setGlobalSearchQuery(query);
     query = query.trim();
-    
+    setGlobalSearchQuery(query); // only set the global search query when the search is performed
 
-    if (navigation.getCurrentPath() !== '/foods') {
+    // If user is not on the foods page, redirect them there with the search query
+    // This handles searches initiated from home page or other pages
+    if (navigation.getCurrentPath() !== redirectTo) {
       if (query === '') {
         return;
       }
-      navigation.navigateWithQuery('/foods', {
+      navigation.navigateWithQuery(redirectTo, {
         search: query,
       })
       // Perform search logic here

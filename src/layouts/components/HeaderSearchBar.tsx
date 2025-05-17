@@ -10,12 +10,16 @@ import { useNavigationService } from '@/services/navigation';
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
 
-function HeaderSearchBar() {
+function HeaderSearchBar({
+  redirectTo = '',
+}) {
   const navigation = useNavigationService();
   const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
   const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery); // set localSearchValue from globalSearchQuery
 
-  const { performSearch } = useSearch();
+  const { performSearch } = useSearch({
+    redirectTo
+  });
   const timerRef = useRef(null);
 
   // Search button click handler
@@ -25,6 +29,7 @@ function HeaderSearchBar() {
 
   // Search input change handler
   const handleInputChange = (value) => {
+    value = value.trim();
     setLocalSearchValue(value);
 
     if (value === '') {

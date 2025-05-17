@@ -4,14 +4,36 @@
 The current implementation uses a dual-state approach for handling search functionality:
 1. Local state in SearchBar component
 2. Global state in AppStore
+3. URL Query String synchronization
 
 ## Synchronization Flow
-1. User types in SearchBar → updates `localSearchValue`
-2. User submits search (Enter/Click) → `localSearchValue` updates `globalSearchQuery` in store
-3. Foods page listens to `globalSearchQuery` changes → filters food list
-4. Other SearchBars sync with store via `useEffect`
+1. On component mount, check for "search" query parameter in URL
+   - If present, initialize `localSearchValue` with URL search value
+   - If not present, initialize with `globalSearchQuery`
+2. User types in SearchBar → updates `localSearchValue`
+3. User submits search (Enter/Click):
+   - Updates `globalSearchQuery` in store with `localSearchValue`
+   - Updates URL query parameter
+   - Redirects to /foods page if not already there
+4. Foods page listens to `globalSearchQuery` changes → filters food list
+5. Other SearchBars sync with store via `useEffect`
 
 ## Implementation Details
+
+### URL Query String Integration
+```tsx
+// Initialize from URL or global state
+const searchParam = new URLSearchParams(location.search).get('search');
+const [localSearchValue, setLocalSearchValue] = useState(searchParam || globalSearchQuery);
+```
+- URL search parameter takes precedence over global state
+- Maintains search state across page refreshes
+- Enables shareable search URLs
+
+### Navigation Behavior
+- Automatic redirection to /foods page on search submission
+- Preserves search state during navigation
+- Updates URL without page refresh
 
 ### Local Search State
 ```tsx
@@ -29,6 +51,19 @@ const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
 - Used for actual search operations
 - Updated only on search submission
 
+## Search Interaction Flow
+
+1. **Input Changes**
+   - Updates `localSearchValue` only
+   - No search execution
+   - No URL updates
+
+2. **Search Submission (Enter/Button)**
+   - Updates `globalSearchQuery` with current `localSearchValue`
+   - Updates URL search parameter
+   - Redirects to /foods if needed
+   - Triggers search execution
+
 ## Pros
 
 1. **Independent Input Control**
@@ -45,6 +80,7 @@ const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
    - All search bars stay in sync after search submission
    - Maintains consistency across the application
    - Clear data flow direction
+   - URL state synchronization for bookmarkable searches
 
 4. **Separation of Concerns**
    - Input handling separated from search execution

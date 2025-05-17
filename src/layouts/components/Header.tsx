@@ -26,6 +26,8 @@ function Header() {
     handleScroll();
     
     window.addEventListener('scroll', handleScroll);
+
+    // Cleanup event listener on component unmount
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -44,7 +46,7 @@ function Header() {
         </Link>
         <div className="flex items-center">
           <div className="relative mr-4">
-            <HeaderSearchBar />
+            <HeaderSearchBar redirectTo="/foods" />
           </div>
           <ThemeModeButton />
         </div>

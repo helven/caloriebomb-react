@@ -35,7 +35,7 @@ function Home() {
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
           <div className="relative">
-            <SearchBar handleUrlSearch="true" />
+            <SearchBar handleUrlSearch="true" redirectTo="/foods" />
           </div>
         </div>
       </section>
