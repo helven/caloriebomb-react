@@ -4,6 +4,7 @@ import { useNavigate, useLocation, useParams, useSearchParams } from 'react-rout
 
 export interface NavigationService {
   navigate: (path: string) => void;
+  navigateWithQuery: (path: string, params: Record<string, string>) => void;
   getCurrentPath: () => string;
   getParams: () => Record<string, string>;
   getQueryParams: () => URLSearchParams;
@@ -18,6 +19,15 @@ export const useNavigationService = (): NavigationService => {
   const location = useLocation();
   let params = useParams();
   const [searchParams] = useSearchParams();
+
+  const navigateWithQuery = (path: string, params: Record<string, string>) => {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value) searchParams.append(key, value);
+    });
+    const queryString = searchParams.toString();
+    navigate(`${path}${queryString ? `?${queryString}` : ''}`);
+  }
 
   const updateQueryString = (key: string, value: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -53,6 +63,7 @@ export const useNavigationService = (): NavigationService => {
 
   return {
     navigate: (path: string) => navigate(path),
+    navigateWithQuery: (path: string, params: Record<string, string>) => navigateWithQuery(path, params),
     getCurrentPath: () => location.pathname,
     getParams: () => sanitizeParams(params),
     getQueryParams: () => searchParams,

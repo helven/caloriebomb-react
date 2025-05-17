@@ -14,13 +14,23 @@ export const useSearch = () => {
 
   const performSearch = (query) => {
     setGlobalSearchQuery(query);
+    query = query.trim();
+    
 
     if (navigation.getCurrentPath() !== '/foods') {
-      if (query.trim() === '') {
+      if (query === '') {
         return;
       }
-      navigation.navigate('/foods');
+      navigation.navigateWithQuery('/foods', {
+        search: query,
+      })
       // Perform search logic here
+    } else {
+      if (query === '') {
+        navigation.removeQueryString('search');
+      } else {
+        navigation.updateQueryString('search', query);
+      }
     }
   };
 
