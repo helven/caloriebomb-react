@@ -1,7 +1,7 @@
 @layer base {
   .food-card,
   .food-category-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow;
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow;
   }
 
   .food-card .food-thumb {
@@ -32,7 +32,7 @@
   }
 
   .food-detail-card {
-    @apply bg-white dark:bg-gray-800 shadow-md overflow-hidden hover:shadow-lg transition-shadow;
+    @apply bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow;
   }
   .food-detail-card .food-thumb {
     @apply bg-gray-200 dark:bg-gray-700 h-64 flex items-center justify-center;

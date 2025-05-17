@@ -1,4 +1,4 @@
-@import '@/styles/food.css';
+@import '@/styles/food/styles.css';
 
 @tailwind base;
 @tailwind components;
@@ -29,7 +29,7 @@ body {
     --primary-foreground: oklch(0.98 0 0);
     --secondary: oklch(1 0 0);
     --secondary-foreground: oklch(0.23 0 0);
-    --secondary-hover:oklch(0.93 0.00 0);
+    --secondary-hover: oklch(0.93 0.00 0);
     --anchor-foreground: oklch(0.40 0.03 250.65);
     --muted: oklch(0.96 0 0);
     --muted-foreground: oklch(0.51 0 0);
@@ -91,6 +91,16 @@ body {
 
   a {
     @apply text-anchor-foreground;
+  }
+
+  input[type="number"] {
+    @apply appearance-none;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    @apply appearance-none;
+    @apply m-0;
   }
 
   button.btn,
