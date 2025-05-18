@@ -1,6 +1,6 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
@@ -15,6 +15,7 @@ import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
 import Pagination from '@/components/listing/Pagination';
+import ListingFilter from '@/app/foods/components/ListingFilter';
 
 function FoodList() {
   const navigation = useNavigationService();
@@ -31,7 +32,6 @@ function FoodList() {
   const [foods, setFoods] = useState([]);
 
   // Filter section
-  const filterRef = useRef(null);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
 
   // Pagination
@@ -85,7 +85,7 @@ function FoodList() {
   useEffect(() => {
     const sortByFromUrl = navigation.getQueryString('sortby');
     if (sortByFromUrl !== sortBy) {
-      setSortBy(sortByFromUrl || '');
+      setSortBy(sortByFromUrl || 'name');
     }
   }, [navigation.getQueryString('sortby')]);
 
@@ -93,7 +93,7 @@ function FoodList() {
   useEffect(() => {
     const sortOrderFromUrl = navigation.getQueryString('sortorder');
     if (sortOrderFromUrl !== sortOrder) {
-      setSortOrder(sortOrderFromUrl || '');
+      setSortOrder(sortOrderFromUrl || 'asc');
     }
   }, [navigation.getQueryString('sortorder')]);
 
@@ -148,82 +148,47 @@ function FoodList() {
           </div>
         </div>
 
-        <div ref={filterRef}
-          className={`${isFilterVisible ? '' : 'hidden'} bg-card rounded-lg shadow-md p-4`}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4"><div>
-            <label className="block text-sm font-medium mb-1">Category</label>
-            <select
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-              value={filters.category}
-              onChange={(e) => {
-                setFilters(prevFilters => ({
-                  ...prevFilters,
-                  category: e.target.value
-                }));
-                if (e.target.value) {
-                  navigation.updateQueryString('category', e.target.value);
-                } else {
-                  navigation.removeQueryString('category');
-                }
-              }}
-            >
-              <option value="">All</option>
-              <option value="beverage">Beverage</option>
-              <option value="condiments">Condiments</option>
-              <option value="cream_crackers">Cream Crackers</option>
-              <option value="dairy">Dairy</option>
-              <option value="dessert">Dessert</option>
-              <option value="fruit">Fruit</option>
-              <option value="grain">Grain</option>
-              <option value="meat">Meat</option>
-              <option value="misc">Misc</option>
-              <option value="oils-fats">Oils Fats</option>
-              <option value="seafood">Seafood</option>
-              <option value="snack">Snack</option>
-              <option value="vegetable">Vegetable</option>
-            </select>
-          </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Sort By</label>
-              <select
-                className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-                value={sortBy}
-                onChange={(e) => {
-                  setSortBy(e.target.value);
-                  if (e.target.value) {
-                    navigation.updateQueryString('sortby', e.target.value);
-                  } else {
-                    navigation.removeQueryString('sortby');
-                  }
-                }}
-              >
-                <option value="name">Name</option>
-                <option value="calories_kcal">Calories</option>
-                <option value="protein_g">Protein</option>
-                <option value="carbs_g">Carbs</option>
-                <option value="fat_g">Fat</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Sort Order</label>
-              <select
-                className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-                value={sortOrder}
-                onChange={(e) => {
-                  setSortOrder(e.target.value);
-                  if (e.target.value) {
-                    navigation.updateQueryString('sortorder', e.target.value);
-                  } else {
-                    navigation.removeQueryString('sortorder');
-                  }
-                }}
-              >
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <ListingFilter
+          className={`${isFilterVisible ? '' : 'hidden'}`}
+          category={{
+            value: filters.category,
+            onChange: (e) => {
+              setFilters(prevFilters => ({
+                ...prevFilters,
+                category: e.target.value
+              }));
+              if (e.target.value) {
+                navigation.updateQueryString('category', e.target.value);
+              } else {
+                navigation.removeQueryString('category');
+              }
+            }
+          }}
+
+          sortBy={{
+            value: sortBy,
+            onChange: (e) => {
+              setSortBy(e.target.value);
+              if (e.target.value) {
+                navigation.updateQueryString('sortby', e.target.value);
+              } else {
+                navigation.removeQueryString('sortby');
+              }
+            }
+          }}
+
+          sortOrder={{
+            value: sortOrder,
+            onChange: (e) => {
+              setSortOrder(e.target.value);
+              if (e.target.value) {
+                navigation.updateQueryString('sortorder', e.target.value);
+              } else {
+                navigation.removeQueryString('sortorder');
+              }
+            }
+          }}
+        />
 
         <section>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
