@@ -11,13 +11,6 @@ import { useMemo } from 'react';
 export function useFilterData({ dataSource, searchQuery, filters }) {
   const filteredAndSortedData = useMemo(() => {
     const filtered = [...dataSource].filter(data => {
-      // Check category
-      //if (category && category !== '') {
-      //  if (data.category !== category) {
-      //    return false;
-      //  }
-      //}
-
       // Check search query
       if (searchQuery && searchQuery !== '') {
         return data.name.toLowerCase().includes(searchQuery.toLowerCase());

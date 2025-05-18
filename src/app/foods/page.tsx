@@ -18,73 +18,84 @@ import Pagination from '@/components/listing/Pagination';
 
 function FoodList() {
   const navigation = useNavigationService();
+
+  // Search
   const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
-  const [category, setCategory] = useState(navigation.getQueryString('category') || '');
+  const [filters, setFilters] = useState({
+    category: navigation.getQueryString('category') || ''
+  });
   const [sortBy, setSortBy] = useState(navigation.getQueryString('sortby') || 'name');
   const [sortOrder, setSortOrder] = useState(navigation.getQueryString('sortorder') || 'asc');
-  const filterRef = useRef(null);
 
+  // data source
   const [foods, setFoods] = useState([]);
+
+  // Filter section
+  const filterRef = useRef(null);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
+
+  // Pagination
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(() => {
     const page = navigation.getQueryString('page');
     return page && Number(page) > 0 ? Number(page) : 1;
   });
   const [totalPages, setTotalPages] = useState(9);
+  const pagingStartIndex = Math.max(0, currentPage - 5);
+  const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
 
-  // Filter food
-  const searchQuery = globalSearchQuery;
+  // Process Data: Filter food
   const filteredFoods = useFilterData({
     dataSource: foods,
     searchQuery: globalSearchQuery,
-    filters: {
-      category
-    }
+    filters
   });
 
-  // Sort food
+  // Process Data: Sort food
   const sortedFoods = useSortData({
     dataSource: filteredFoods,
     sortBy,
     sortOrder
   });
 
-  // Paginate food
+  // Process Data: Paginate food
   const paginatedFoods = usePaginateData({
     dataSource: sortedFoods,
     currentPage,
     itemsPerPage
   });
 
-  const pagingStartIndex = Math.max(0, currentPage - 5);
-  const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
-
-  useEffect(() => {
-    const categoryFromUrl = navigation.getQueryString('category');
-    if (categoryFromUrl !== category) {
-      setCategory(categoryFromUrl || '');
-    }
-  }, [navigation.getQueryString('category')]);
-
-  useEffect(() => {
-    const sortByFromUrl = navigation.getQueryString('sortby');
-    if (sortByFromUrl !== sortBy) {
-      setCategory(sortByFromUrl || '');
-    }
-  }, [navigation.getQueryString('sortby')]);
-
-  useEffect(() => {
-    const sortOrderFromUrl = navigation.getQueryString('sortorder');
-    if (sortOrderFromUrl !== sortOrder) {
-      setCategory(sortOrderFromUrl || '');
-    }
-  }, [navigation.getQueryString('sortorder')]);
-
   // Set mock data to foods state
   useEffect(() => {
     setFoods(mockFoods);
   }, []);
+
+  // Set category from query string to filters state
+  useEffect(() => {
+    const categoryFromUrl = navigation.getQueryString('category');
+    if (categoryFromUrl !== filters.category) {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        category: categoryFromUrl
+      }));
+    }
+  }, [navigation.getQueryString('category')]);
+
+  // Set sortby from query string to sortBy state
+  useEffect(() => {
+    const sortByFromUrl = navigation.getQueryString('sortby');
+    if (sortByFromUrl !== sortBy) {
+      setSortBy(sortByFromUrl || '');
+    }
+  }, [navigation.getQueryString('sortby')]);
+
+  // Set sortorder from query string to sortORder state
+  useEffect(() => {
+    const sortOrderFromUrl = navigation.getQueryString('sortorder');
+    if (sortOrderFromUrl !== sortOrder) {
+      setSortOrder(sortOrderFromUrl || '');
+    }
+  }, [navigation.getQueryString('sortorder')]);
 
   // Calculate total pages separately to react to itemsPerPage changes
   useEffect(() => {
@@ -137,16 +148,18 @@ function FoodList() {
           </div>
         </div>
 
-
         <div ref={filterRef}
           className={`${isFilterVisible ? '' : 'hidden'} bg-card rounded-lg shadow-md p-4`}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4"><div>
             <label className="block text-sm font-medium mb-1">Category</label>
             <select
               className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-              value={category}
+              value={filters.category}
               onChange={(e) => {
-                setCategory(e.target.value);
+                setFilters(prevFilters => ({
+                  ...prevFilters,
+                  category: e.target.value
+                }));
                 if (e.target.value) {
                   navigation.updateQueryString('category', e.target.value);
                 } else {
