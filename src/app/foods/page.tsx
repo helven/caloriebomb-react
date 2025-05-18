@@ -8,12 +8,13 @@ import useAppStore from '@/stores/useAppStore';
 
 // 3. Project services and utilities
 import { useNavigationService } from '@/services/navigation';
+import { useFilterData, useSortData, usePaginateData } from '@/hooks/useProcessListingData';
 
 // 4. Components and UI elements
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
-import Pagingation from '@/components/listing/Pagingation';
+import Pagination from '@/components/listing/Pagination';
 
 function FoodList() {
   const navigation = useNavigationService();
@@ -33,44 +34,28 @@ function FoodList() {
   const [totalPages, setTotalPages] = useState(9);
 
   // Filter food
-  const filteredAndSortedFoods = useMemo(() => {
-    const filtered = foods
-      .filter(food => {
-        // Check category
-        if (category && category !== '') {
-          if (food.category !== category) {
-            return false;
-          }
-        }
+  const searchQuery = globalSearchQuery;
+  const filteredFoods = useFilterData({
+    dataSource: foods,
+    searchQuery: globalSearchQuery,
+    filters: {
+      category
+    }
+  });
 
-        // Check search query
-        if (globalSearchQuery && globalSearchQuery !== '') {
-          return food.name.toLowerCase().includes(globalSearchQuery.toLowerCase());
-        }
-
-        return true;
-      })
-      .sort((a, b) => {console.log(sortBy)
-        const aValue = Number(a[sortBy]);
-        const bValue = Number(b[sortBy]);
-
-        if (sortOrder === 'asc') {
-          return aValue > bValue ? 1 : -1;
-        } else {
-          return aValue < bValue ? 1 : -1;
-        }
-      });
-
-    return filtered;
-  }, [foods, category, sortBy, sortOrder, globalSearchQuery]);
+  // Sort food
+  const sortedFoods = useSortData({
+    dataSource: filteredFoods,
+    sortBy,
+    sortOrder
+  });
 
   // Paginate food
-  const paginatedFoods = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-
-    return filteredAndSortedFoods.slice(start, end);
-  }, [filteredAndSortedFoods, currentPage, itemsPerPage]);
+  const paginatedFoods = usePaginateData({
+    dataSource: sortedFoods,
+    currentPage,
+    itemsPerPage
+  });
 
   const pagingStartIndex = Math.max(0, currentPage - 5);
   const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
@@ -103,8 +88,8 @@ function FoodList() {
 
   // Calculate total pages separately to react to itemsPerPage changes
   useEffect(() => {
-    setTotalPages(Math.ceil(filteredAndSortedFoods.length / itemsPerPage));
-  }, [filteredAndSortedFoods, itemsPerPage]);
+    setTotalPages(Math.ceil(filteredFoods.length / itemsPerPage));
+  }, [filteredFoods, itemsPerPage]);
 
   // When user nagivate to page beyond the total pages, reset to page 1
   useEffect(() => {
@@ -125,13 +110,13 @@ function FoodList() {
         </div>
       </section>
 
-      <div className="container mx-auto grid grid-cols-1 gap-8 mb-8 px-4">
+      <section className="container mx-auto grid grid-cols-1 gap-8 mb-8 px-4">
         <div>
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold dark:text-white">All Foods</h1>
               <div className="text-left text-sm text-gray-600 dark:text-gray-400">
-                Showing {paginatedFoods.length} of {filteredAndSortedFoods.length} foods
+                Showing {paginatedFoods.length} of {filteredFoods.length} foods
               </div>
             </div>
             <button
@@ -236,7 +221,7 @@ function FoodList() {
           </div>
         </section>
 
-        <Pagingation
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
@@ -246,7 +231,7 @@ function FoodList() {
           pagingEndIndex={pagingEndIndex}
           textPerPage="Foods per page"
         />
-      </div>
+      </section>
     </>
   );
 }

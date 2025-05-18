@@ -12,7 +12,7 @@ import { formatNutrient } from '@/utils/formatters';
 import { Link } from '@/components/common/Link';
 import ArrowProps from '@/components/props/ArrowProps';
 
-function Pagingation({ currentPage, totalPages, onPageChange, onItemsPerPageChange, itemsPerPage, pagingStartIndex, pagingEndIndex, textPerPage }) {
+function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChange, itemsPerPage, pagingStartIndex, pagingEndIndex, textPerPage }) {
   const navigation = useNavigationService();
 
   return (
@@ -79,4 +79,4 @@ function Pagingation({ currentPage, totalPages, onPageChange, onItemsPerPageChan
   );
 }
 
-export default Pagingation;
+export default Pagination;

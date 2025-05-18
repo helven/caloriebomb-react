@@ -10,13 +10,19 @@ import { useNavigationService } from '@/services/navigation';
 export const useSearch = ({ redirectTo } = {}) => {
   const { setGlobalSearchQuery } = useAppStore();
   const navigation = useNavigationService();
-  
+
 
   const performSearch = (query) => {
     query = query.trim();
-     // Set the global search query when the search is performed
-     // globalSearchQuery is used by the listing to filter the results
+    // Set the global search query when the search is performed
+    // globalSearchQuery is used by the listing to filter the results
     setGlobalSearchQuery(query);
+
+    if (query === '') {
+      navigation.removeQueryString('search');
+    } else {
+      navigation.updateQueryString('search', query);
+    }
 
     // Enable redirection to actual results page
     // Eg This handles searches initiated from homepage and redirect to foods page for search result
@@ -27,13 +33,6 @@ export const useSearch = ({ redirectTo } = {}) => {
       navigation.navigateWithQuery(redirectTo, {
         search: query,
       })
-      // Perform search logic here
-    } else {
-      if (query === '') {
-        navigation.removeQueryString('search');
-      } else {
-        navigation.updateQueryString('search', query);
-      }
     }
   };
 
