@@ -18,7 +18,7 @@ function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChang
   return (
     <section className="flex flex-col md:flex-row justify-between items-center">
       <div className="mb-4 md:mb-0">
-        <label className="text-sm text-gray-600 dark:text-gray-400 mr-2">{textPerPage}:</label>
+        <label className="text-sm mr-2">{textPerPage}:</label>
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -31,16 +31,23 @@ function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChang
         </select>
       </div>
       <div className="flex items-center">
-        <ArrowProps type="left" disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} />
+        <button
+          disabled={currentPage === 1}
+          className={`${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
+          onClick={() => onPageChange(currentPage - 1)}
+        >
+          <ArrowProps type="left" />
+        </button>
         <div className="flex mx-2">
           {(currentPage > 5) ? (
             <>
               <button
-                className={`w-8 h-8 mx-1 rounded-md ${currentPage === 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                className={`w-8 h-8 mx-1 rounded-md ${currentPage === 1 ? 'btn-primary' : 'btn-secondary'}`}
                 onClick={() => onPageChange(1)}
               >
                 1
-              </button><span className="mx-2">...</span>
+              </button>
+              <span className="mx-2">...</span>
             </>
           ) : ('')}
 
@@ -51,7 +58,7 @@ function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChang
               pagesButtons.push(
                 <button
                   key={i + 1}
-                  className={`w-8 h-8 mx-1 rounded-md ${currentPage === i + 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+                  className={`w-8 h-8 mx-1 rounded-md ${currentPage === i + 1 ? 'btn-primary' : 'btn-secondary'}`}
                   onClick={() => onPageChange(i + 1)}
                 >
                   {i + 1}
@@ -63,8 +70,9 @@ function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChang
 
           {(pagingEndIndex < totalPages - 1) ? (
             <>
-              <span className="mx-2">...</span><button
-                className={`w-8 h-8 mx-1 rounded-md ${currentPage === totalPages ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600'}`}
+              <span className="mx-2">...</span>
+              <button
+                className={`w-8 h-8 mx-1 rounded-md ${currentPage === totalPages ? 'btn-primary' : 'btn-secondary'}`}
                 onClick={() => onPageChange(totalPages)}
               >
                 {totalPages}
@@ -72,9 +80,15 @@ function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChang
             </>
           ) : ('')}
         </div>
-        <ArrowProps type="right" disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} />
+        <button
+          disabled={currentPage === totalPages}
+          className={`${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
+          onClick={() => onPageChange(currentPage + 1)}
+        >
+          <ArrowProps type="right" />
+        </button>
       </div>
-      <div className="mt-4 md:mt-0 text-sm text-gray-600 dark:text-gray-400">Page {currentPage} of {totalPages}</div>
+      <div className="mt-4 md:mt-0 text-sm">Page {currentPage} of {totalPages}</div>
     </section>
   );
 }

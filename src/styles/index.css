@@ -19,22 +19,31 @@ body {
   :root {
     --radius: 0.5rem;
     --background: oklch(0.98 0.02 72.96);
-    --foreground: oklch(0 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.40 0.03 250.65);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.157 0 0);
+    --foreground: oklch(0.446 0.03 256.802);
+    --card1: oklch(1 0 0);
+    --card1-foreground: oklch(0.40 0.03 250.65);
+    --card2: oklch(0.928 0.006 264.531);
+    --card2-foreground: oklch(0.373 0.034 259.733);
+    --card3: oklch(0.967 0.003 264.542);
+    --card3-foreground: oklch(0.373 0.034 259.733);
+
     --primary: oklch(0.7 0.19 47.6);
     --primary-hover: oklch(0.646 0.222 41.116);
     --primary-foreground: oklch(0.98 0 0);
-    --secondary: oklch(1 0 0);
-    --secondary-foreground: oklch(0.23 0 0);
-    --secondary-hover: oklch(0.93 0.00 0);
+    --accent: oklch(0.71 0.1595 239.37);
+    --accent-hover: oklch(0.79 0.141 216.76);
+    --accent-foreground: oklch(0.98 0 0);
+    --secondary: oklch(0.928 0.006 264.531);
+    --secondary-foreground: oklch(0.373 0.034 259.733);
+    --secondary-hover: oklch(0.90 0.00 0);
+
     --anchor-foreground: oklch(0.40 0.03 250.65);
+    --anchor-hover: oklch(0.7 0.19 47.6);
+
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.157 0 0);
     --muted: oklch(0.96 0 0);
     --muted-foreground: oklch(0.51 0 0);
-    --accent: oklch(0.96 0 0);
-    --accent-foreground: oklch(0.23 0 0);
     --destructive: oklch(0.67 0.18 29.23);
     --destructive-foreground: oklch(0.98 0 0);
     --border: oklch(0.89 0 0);
@@ -50,22 +59,32 @@ body {
   .dark {
     --radius: 0.5rem;
     --background: oklch(0.23 0.05 256.87);
-    --foreground: oklch(0.71 0.015 255.09);
-    --card: oklch(0.28 0.03 256.87);
-    --card-foreground: oklch(0.71 0.015 255.09);
-    --popover: oklch(0.039 0 0);
-    --popover-foreground: oklch(0.98 0 0);
+    --background: oklch(0.208 0.02 265.755);
+    --foreground: oklch(0.707 0.022 261.325);
+    --card1: oklch(0.28 0.03 256.87);
+    --card1-foreground: oklch(0.71 0.015 255.09);
+    --card2: oklch(0.373 0.034 259.733);
+    --card2-foreground: oklch(0.872 0.01 258.338);
+    --card3: oklch(0.373 0.034 259.733);
+    --card3-foreground: oklch(0.40 0.03 250.65);
+
     --primary: oklch(0.7 0.19 47.6);
     --primary-hover: oklch(0.646 0.222 41.116);
     --primary-foreground: oklch(1 0 0);
-    --secondary: oklch(0.37 0.03 259.76);
+    --accent: oklch(0.71 0.1595 239.37);
+    --accent-hover: oklch(0.79 0.141 216.76);
+    --accent-foreground: oklch(0.98 0 0);
+    --secondary: oklch(0.373 0.034 259.733);
     --secondary-hover: oklch(0.28 0.03 256.87);
-    --secondary-foreground: oklch(0.98 0 0);
+    --secondary-foreground: oklch(0.872 0.01 258.338);
+
     --anchor-foreground: oklch(0.71 0.015 255.09);
+    --anchor-hover: oklch(0.7 0.19 47.6);
+
+    --popover: oklch(0.039 0 0);
+    --popover-foreground: oklch(0.98 0 0);
     --muted: oklch(0.149 0 0);
     --muted-foreground: oklch(0.639 0 0);
-    --accent: oklch(0.149 0 0);
-    --accent-foreground: oklch(0.98 0 0);
     --destructive: oklch(0.45 0.18 29.23);
     --destructive-foreground: oklch(0.98 0 0);
     --border: oklch(0.149 0 0);
@@ -85,12 +104,23 @@ body {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-100;
     /* apply --background to background and --foreground to color */
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-black dark:text-white;
+  }
+
   a {
-    @apply text-anchor-foreground;
+    @apply text-anchor-foreground transition-colors duration-300;
+  }
+
+  a:hover {
+    @apply text-anchorHover;
   }
 
   input[type="number"] {
@@ -105,12 +135,23 @@ body {
 
   button.btn,
   a.btn {
-    @apply px-6 py-3 bg-orange-500 text-white font-medium rounded-md transition-colors;
+    @apply px-6 py-3 bg-orange-500 text-white font-medium rounded-md transition-colors duration-300;
+  }
+
+  .btn-primary,
+  .btn-accent,
+  .btn-secondary {
+    @apply transition-colors duration-300;
   }
 
   button.btn-primary,
   a.btn-primary {
     @apply bg-primary text-primary-foreground;
+  }
+
+  button.btn-accent,
+  a.btn-accent {
+    @apply bg-accent text-accent-foreground;
   }
 
   button.btn-secondary,
@@ -123,13 +164,14 @@ body {
     @apply bg-primaryHover text-primary-foreground;
   }
 
+  button.btn-accent:hover,
+  a.btn-accent:hover {
+    @apply bg-accentHover text-accent-foreground;
+  }
+
   button.btn-secondary:hover,
   a.btn-secondary:hover {
     @apply bg-secondaryHover text-secondary-foreground;
-  }
-
-  .bg-card * {
-    @apply text-card-foreground;
   }
 
   section.page-breadcrumb {

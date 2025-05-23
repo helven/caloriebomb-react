@@ -112,7 +112,7 @@ function FoodList() {
   return (
     <>
       <section className="page-header text-center ">
-        <h2 className="text-4xl font-bold mb-4 dark:text-white">Find Your Food's Kaboom <span className="inline-block">💣</span></h2>
+        <h2 className="text-4xl font-bold mb-4">Find Your Food's Kaboom <span className="inline-block">💣</span></h2>
         <p className="mb-8">Discover the nutritional content of your favorite foods</p>
         <div className="max-w-md mx-auto">
           <div className="relative">
@@ -125,8 +125,8 @@ function FoodList() {
         <div>
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold dark:text-white">All Foods</h1>
-              <div className="text-left text-sm text-gray-600 dark:text-gray-400">
+              <h1 className="text-3xl font-bold">All Foods</h1>
+              <div className="text-left text-sm">
                 Showing {paginatedFoods.length} of {filteredFoods.length} foods
               </div>
             </div>

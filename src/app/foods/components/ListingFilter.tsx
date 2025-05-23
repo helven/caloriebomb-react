@@ -11,7 +11,7 @@ function ListingFilter({ className, category, sortBy, sortOrder }) {
 
   return (
     <div
-      className={`${className} bg-card rounded-lg shadow-md p-4`}>
+      className={`${className} bg-card1 rounded-lg shadow-md p-4`}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Category</label>

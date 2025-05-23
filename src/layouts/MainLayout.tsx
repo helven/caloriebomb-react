@@ -26,7 +26,7 @@ function MainLayout({ children }) {
         <Outlet />
       </main>
 
-      <footer className="bg-card py-6 mt-auto">
+      <footer className="bg-card1 py-6 mt-auto">
         <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">© 2025 CalorieBomb. All rights reserved.</div>
       </footer>
     </div>

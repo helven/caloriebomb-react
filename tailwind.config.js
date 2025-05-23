@@ -14,7 +14,18 @@ export default {
         ring: "var(--ring)",
         background: "var(--background)",
         foreground: "var(--foreground)",
-        card: "var(--card)",
+        card1: {
+          DEFAULT: "var(--card1)",
+          foreground: "var(--card1-foreground)",
+        },
+        card2: {
+          DEFAULT: "var(--card2)",
+          foreground: "var(--card2-foreground)",
+        },
+        card3: {
+          DEFAULT: "var(--card3)",
+          foreground: "var(--card3-foreground)",
+        },
         primary: {
           DEFAULT: "var(--primary)",
           foreground: "var(--primary-foreground)",
@@ -25,10 +36,16 @@ export default {
           foreground: "var(--secondary-foreground)",
         },
         secondaryHover: "var(--secondary-hover)",
+        accent: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-foreground)",
+        },
+        accentHover: "var(--accent-hover)",
         anchor: {
           DEFAULT: "var(--anchor)",
           foreground: "var(--anchor-foreground)",
         },
+        anchorHover: "var(--anchor-hover)",
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",

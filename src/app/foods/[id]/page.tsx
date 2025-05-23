@@ -95,11 +95,11 @@ function FoodDetail() {
             <div className="food-detail-card p-6">
               <div className="flex items-center justify-between">
                 <label className="font-medium text-lg dark:text-white">Serving Size:</label>
-                <div className="dark:bg-gray-700 relative inline-block">
+                <div className="bg-card1 relative inline-block">
                   <div className="flex items-center border dark:border-gray-600 pe-1">
                     <input
                       type="number"
-                      className="dark:bg-gray-700 dark:text-gray-300 w-16 px-2 py-1.5 border-none focus:ring-0 outline-none text-right"
+                      className="bg-card1 dark:text-gray-300 w-16 px-2 py-1.5 border-none focus:ring-0 outline-none text-right"
                       min="0.1"
                       step="0.1"
                       value={servingSize}
@@ -118,7 +118,7 @@ function FoodDetail() {
                   {(showServingSizeOptions) ? (
                     <div
                       ref={servingSizeOptionRef}
-                      className="bg-card absolute right-0 mt-1 w-36 dark:bg-gray-700 border dark:border-gray-600 shadow-lg z-10">
+                      className="bg-card1 absolute right-0 mt-1 w-36 border dark:border-gray-600 shadow-lg z-10">
                       <div className="py-1">
                         {servingSizeOptions
                           .map((servingSize) => (
@@ -141,23 +141,23 @@ function FoodDetail() {
             <section className="food-detail-card p-6">
               <h2 className="text-xl font-semibold mb-4 dark:text-white">Nutrition Information</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                <div className="bg-card3 p-4 rounded-lg">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Calories (kcal)</div>
                   <div className="text-xl font-bold text-orange-500 flex items-center">{formatNutrient(food.serving_calories_kcal)}</div>
                 </div>
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                <div className="bg-card3 p-4 rounded-lg">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Protein</div>
                   <div className="text-xl font-bold text-red-500 flex items-center">
                     <span className="mr-1">🍖</span>{formatNutrient(food.serving_protein_g)}g
                   </div>
                 </div>
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                <div className="bg-card3 p-4 rounded-lg">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Carbs</div>
                   <div className="text-xl font-bold text-yellow-500 flex items-center">
                     <span className="mr-1">🌾</span>{formatNutrient(food.serving_carbs_g)}g
                   </div>
                 </div>
-                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                <div className="bg-card3 p-4 rounded-lg">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Fat</div>
                   <div className="text-xl font-bold text-green-500 flex items-center">
                     <span className="mr-1">🥑</span>{formatNutrient(food.serving_fat_g)}g

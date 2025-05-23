@@ -29,14 +29,7 @@ const ArrowProps = ({
   // Different HTML structure based on variant
   if (variant === 'circle') {
     return (
-      <button
-        onClick={onClick}
-        disabled={disabled}
-        className={`${buttonStyles.circle} ${disabled
-            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            : 'bg-orange-500 text-white hover:bg-orange-600'
-          }`}
-      >
+      <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -50,20 +43,13 @@ const ArrowProps = ({
         >
           <path d={paths[type]}></path>
         </svg>
-      </button>
+      </span>
     );
   }
 
   // Default button structure
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`${buttonStyles[variant]} ${disabled
-          ? 'text-gray-400 cursor-not-allowed'
-          : 'text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
-        }`}
-    >
+    <span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -77,7 +63,7 @@ const ArrowProps = ({
       >
         <path d={paths[type]}></path>
       </svg>
-    </button>
+    </span>
   );
 };
 
