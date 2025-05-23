@@ -1,7 +1,7 @@
 @layer base {
   .food-card,
   .food-category-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden;
+    @apply bg-card rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden;
   }
 
   .food-card .food-thumb {
@@ -13,7 +13,7 @@
   }
 
   .food-card .food-calories {
-    @apply text-orange-500 font-bold dark:text-orange-400;
+    @apply text-primary font-bold;
   }
 
   .food-card.food-macro {
@@ -32,7 +32,7 @@
   }
 
   .food-detail-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md transition-shadow;
+    @apply bg-card rounded-lg shadow-md transition-shadow;
   }
   .food-detail-card .food-thumb {
     @apply bg-gray-200 dark:bg-gray-700 rounded-lg h-64 flex items-center justify-center;
