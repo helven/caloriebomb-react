@@ -35,7 +35,7 @@ body {
     --accent-foreground: oklch(0.98 0 0);
     --secondary: oklch(0.928 0.006 264.531);
     --secondary-foreground: oklch(0.373 0.034 259.733);
-    --secondary-hover: oklch(0.90 0.00 0);
+    --secondary-hover: oklch(0.8 0.00 0);
 
     --anchor-foreground: oklch(0.40 0.03 250.65);
     --anchor-hover: oklch(0.7 0.19 47.6);
