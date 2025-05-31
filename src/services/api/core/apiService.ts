@@ -1,9 +1,9 @@
 // Typescript file
 import axios from 'axios';
-import { authService } from '@/services/auth';
+import { authServices } from '@/services/api/auth/';
 import { API_ROUTES } from '@/constants/apiRoutes';
 
-export const api = axios.create({
+export const apiService = axios.create({
   baseURL: API_ROUTES.BASEURL,
   headers: {
     'Content-Type': 'application/json',
@@ -11,9 +11,9 @@ export const api = axios.create({
 });
 
 // Handles token injection
-api.interceptors.request.use(
+apiService.interceptors.request.use(
   async (config) => {
-    const token = await authService.getToken(); // Get the token from authService
+    const token = await authServices.auth.getToken(); // Get the token from authService
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // Attach the token to the request headers
     }
@@ -26,7 +26,7 @@ api.interceptors.request.use(
 );
 
 // Response interceptor to handle common errors
-api.interceptors.response.use(
+apiService.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {

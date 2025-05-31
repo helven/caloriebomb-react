@@ -48,15 +48,15 @@ const FoodSubmission = () => {
         />
 
         <section className="food-detail-card p-6">
-          <form className="">
+          <form enctype="multipart/form-data" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="col-span-2">
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Food Name*</label>
-                <input className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 border-gray-300" placeholder="e.g., Banana" type="text" name="name" />
+                <label>Food Name*</label>
+                <input placeholder="e.g., Banana" type="text" name="name" />
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Category*</label>
-                <select name="category_id" className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 border-gray-300">
+                <label>Category*</label>
+                <select name="category_id">
                   <option value="">Select a category</option>
                   <option value="Fruits">Fruits</option>
                   <option value="Meat">Meat</option>
@@ -66,10 +66,10 @@ const FoodSubmission = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Food Emoji</label>
+                <label>Food Emoji</label>
                 <div className="flex items-center">
                   <div className="bg-gray-100 dark:bg-gray-700 h-12 w-12 rounded-md flex items-center justify-center text-2xl mr-3">🍽️</div>
-                  <select name="emoji" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600">
+                  <select name="emoji">
                     <option value="🍎">🍎 Apple</option>
                     <option value="🍌">🍌 Banana</option>
                     <option value="🥩">🥩 Meat</option>
@@ -95,59 +95,59 @@ const FoodSubmission = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Calories (kcal)*</label>
-                <input min="0" step="0.1" className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 border-gray-300" type="number" name="calories_kcal" />
+                <label>Calories (kcal)*</label>
+                <input min="0" step="0.1" type="number" name="calories_kcal" />
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Energy (kJ) - Auto-calculated</label>
-                <input readonly="" className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 dark:bg-gray-600 dark:text-gray-300 dark:border-gray-600" type="number" name="energy_kj" />
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Calculated using 1 kcal = 4.184 kJ</p>
+                <label>Energy (kJ) - Auto-calculated</label>
+                <input readonly="" className="border-gray-300 bg-gray-100 dark:bg-gray-600 dark:text-gray-300 dark:border-gray-600" type="number" name="energy_kj" />
+                <p className="text-xs mt-1">Calculated using 1 kcal = 4.184 kJ</p>
               </div>
               <div className="col-span-2">
-                <h3 className="text-lg font-semibold mb-3 dark:text-white">Macronutrients (g per 100g)</h3>
+                <h3 className="text-lg font-semibold mb-3">Macronutrients (g per 100g)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Protein (g)</label>
-                    <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="protein_g" />
+                    <label>Protein (g)</label>
+                    <input min="0" step="0.1" type="number" name="protein_g" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Carbohydrate (g)</label>
-                    <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="carbohydrate_g" />
+                    <label>Carbohydrate (g)</label>
+                    <input min="0" step="0.1" type="number" name="carbohydrate_g" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Total Fat (g)</label>
-                    <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="fat_g" />
+                    <label>Total Fat (g)</label>
+                    <input min="0" step="0.1" type="number" name="fat_g" />
                   </div>
                 </div>
               </div>
               <div className="col-span-2">
-                <h3 className="text-lg font-semibold mb-3 dark:text-white">Fat Breakdown</h3>
+                <h3 className="text-lg font-semibold mb-3">Fat Breakdown</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Saturated Fat (g)</label>
-                    <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="saturated_fat_g" />
+                    <label>Saturated Fat (g)</label>
+                    <input min="0" step="0.1" type="number" name="saturated_fat_g" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Monounsaturated Fat (g)</label>
-                    <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="monounsaturated_fat_g" />
+                    <label>Monounsaturated Fat (g)</label>
+                    <input min="0" step="0.1" type="number" name="monounsaturated_fat_g" />
                   </div>
                   <div>
-                    <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Polyunsaturated Fat (g)</label>
-                    <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="polyunsaturated_fat_g" />
+                    <label>Polyunsaturated Fat (g)</label>
+                    <input min="0" step="0.1" type="number" name="polyunsaturated_fat_g" />
                   </div>
                 </div>
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Fiber (g)</label>
-                <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="fiber_g" />
+                <label>Fiber (g)</label>
+                <input min="0" step="0.1" type="number" name="fiber_g" />
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Cholesterol (mg)</label>
-                <input min="0" step="0.1" className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600" type="number" name="cholesterol_mg" />
+                <label>Cholesterol (mg)</label>
+                <input min="0" step="0.1" type="number" name="cholesterol_mg" />
               </div>
               <div className="col-span-2 mt-4">
-                <h3 className="text-lg font-semibold mb-3 dark:text-white">Food Images</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Upload up to 5 images of this food item. The first image will be used as the cover.</p>
+                <h3 className="text-lg font-semibold mb-3">Food Images</h3>
+                <p className="text-sm mb-3">Upload up to 5 images of this food item. The first image will be used as the cover.</p>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
                   <div className="relative aspect-square border border-dashed border-gray-300 dark:border-gray-600 rounded-md flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-700">
                     <label className="cursor-pointer flex flex-col items-center justify-center w-full h-full">

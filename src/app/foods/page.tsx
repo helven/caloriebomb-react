@@ -67,7 +67,22 @@ function FoodList() {
 
   // Set mock data to foods state
   useEffect(() => {
-    setFoods(mockFoods);
+    //setFoods(mockFoods);
+    const fetchFoods = async () => {
+      if (!hasValidToken()) {
+        console.error('Invalid token for API access');
+        return;
+      }
+
+      try {
+        const response = await api.getFoods();
+        setFoods(response.data);
+      } catch (error) {
+        console.error('Failed to fetch foods:', error);
+      }
+    };
+
+    fetchFoods();
   }, []);
 
   // Set category from query string to filters state

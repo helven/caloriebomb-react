@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 _ref
+
+.env
+.env.development
+.env.production
+.env.local

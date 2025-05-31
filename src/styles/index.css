@@ -181,4 +181,14 @@ body {
   section.page-header {
     @apply py-16 px-4;
   }
+
+  form input:not([type="radio"]):not([type="checkbox"]),
+  form select,
+  form textarea {
+    @apply w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 border-gray-300
+  }
+
+  form label {
+    @apply block text-gray-700 dark:text-gray-300 font-medium mb-2;
+  }
 }

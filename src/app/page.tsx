@@ -6,13 +6,17 @@ import { useState, useEffect } from 'react';
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
 
-// 3. Component imports
+// 3. Project services and utilities
+import { foodService } from '@/services/api/food/foodService';
+
+// 4. Components and UI elements
 import { Link } from '@/components/common/Link';
 import FoodCard from '@/components/FoodCard';
 import SearchBar from '@/components/SearchBar';
 
 function Home() {
-  const [foods, setFoods] = useState([]);
+  const [featuredFoods, setFeaturedFoods] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = [
     { href: 'meat', emoji: '🥩', name: 'Meat' },
@@ -22,7 +26,26 @@ function Home() {
   ];
 
   useEffect(() => {
-    setFoods(mockFoods);
+    //setFeaturedFoods(mockFoods);
+
+    const fetchFoods = async () => {
+      try {
+        const response = await foodService.getAllFoods({
+          sortby: 'random',
+          per_page: 6,
+        });
+        const foods = response.data;
+        console.log(foods);
+        setFeaturedFoods(foods);
+        // Use the foods data
+      } catch (error) {
+        console.error('Error fetching foods:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFoods();
   }, []);
 
 
@@ -40,22 +63,26 @@ function Home() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
-        <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">
-          <span>🔥</span> Featured Foods <span>🔥</span>
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {foods
-            .sort(() => 0.5 - Math.random())
+      {featuredFoods.success && (
+        <section className="container mx-auto px-4 py-8">
+          <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">
+            <span>🔥</span> Featured Foods<span>🔥</span>
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {featuredFoods.data.items
+              .sort(() => 0.5 - Math.random())
             .slice(0, 6)
-            .map((food) => (
-              <FoodCard key={food.id} food={food} />
+              .map((food) => (
+            <FoodCard key={food.id} food={food} />
             ))}
-        </div>
-        <div className="text-center mt-8">
-          <Link href={`/foods`} className="btn btn-primary">Browse All Foods</Link>
-        </div>
-      </section>
+
+          </div>
+          <div className="text-center mt-8">
+            <Link href={`/foods`} className="btn btn-primary">Browse All Foods</Link>
+          </div>
+        </section>
+      )}
 
       <section className="container mx-auto px-4 py-12">
         <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">Browse by Category</h3>
