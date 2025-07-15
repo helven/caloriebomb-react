@@ -1,10 +1,10 @@
 // Typescript file
 // Next.js compatible
+import { useRef } from 'react';
 import { useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 export interface NavigationService {
-  navigate: (path: string) => void;
-  navigateWithQuery: (path: string, params: Record<string, string>) => void;
+  navigate: (path: string, params?: Record<string, string>) => void;
   getCurrentPath: () => string;
   getParams: () => Record<string, string>;
   getQueryParams: () => URLSearchParams;
@@ -19,21 +19,41 @@ export const useNavigationService = (): NavigationService => {
   const location = useLocation();
   let params = useParams();
   const [searchParams] = useSearchParams();
+  
+  // Use ref to maintain stable reference
+  const stableSearchParams = useRef(searchParams);
+  
+  // Update ref when searchParams changes
+  if (stableSearchParams.current !== searchParams) {
+    stableSearchParams.current = searchParams;
+  }
 
-  const navigateWithQuery = (path: string, params: Record<string, string>) => {
-    const searchParams = new URLSearchParams();
+  const navigateTo = (path: string, params?: Record<string, string>) => {
+    if (!params) {
+      navigate(path);
+      return;
+    }
+
+    const urlSearchParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
-      if (value) searchParams.append(key, value);
+      if (value) urlSearchParams.append(key, value);
     });
-    const queryString = searchParams.toString();
+    const queryString = urlSearchParams.toString();
     navigate(`${path}${queryString ? `?${queryString}` : ''}`);
   }
 
-  const updateQueryString = (key: string, value: string) => {
-    const newSearchParams = new URLSearchParams(searchParams);
+  const getQueryString = useRef((param?: string) => {
+    return param ? (stableSearchParams.current.get(param) ?? '') : '';
+  }).current;
+
+  const updateQueryString = useRef((key: string, value: string) => {
+    const newSearchParams = new URLSearchParams(stableSearchParams.current);
     newSearchParams.set(key, value);
-    navigate(`${location.pathname}?${newSearchParams.toString()}`);
-  };
+    // Use React Router's batched updates
+    requestAnimationFrame(() => {
+      navigate(`${location.pathname}?${newSearchParams.toString()}`);
+    });
+  }).current;
 
   const removeQueryString = (key: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -62,13 +82,12 @@ export const useNavigationService = (): NavigationService => {
   params = sanitizeParams(params);
 
   return {
-    navigate: (path: string) => navigate(path),
-    navigateWithQuery: (path: string, params: Record<string, string>) => navigateWithQuery(path, params),
+    navigate: navigateTo,
     getCurrentPath: () => location.pathname,
     getParams: () => sanitizeParams(params),
     getQueryParams: () => searchParams,
-    getQueryString: (param?: string) => param ? (searchParams.get(param) ?? '') : '',
-    updateQueryString: updateQueryString,
+    getQueryString,
+    updateQueryString,
     removeQueryString: removeQueryString,
   };
 };
