@@ -120,7 +120,7 @@ body {
   }
 
   a:hover {
-    @apply text-anchorHover;
+    @apply text-anchor-hover;
   }
 
   input[type="number"] {
@@ -161,17 +161,17 @@ body {
 
   button.btn-primary:hover,
   a.btn-primary:hover {
-    @apply bg-primaryHover text-primary-foreground;
+    @apply bg-primary-hover text-primary-foreground;
   }
 
   button.btn-accent:hover,
   a.btn-accent:hover {
-    @apply bg-accentHover text-accent-foreground;
+    @apply bg-accent-hover text-accent-foreground;
   }
 
   button.btn-secondary:hover,
   a.btn-secondary:hover {
-    @apply bg-secondaryHover text-secondary-foreground;
+    @apply bg-secondary-hover text-secondary-foreground;
   }
 
   section.page-breadcrumb {

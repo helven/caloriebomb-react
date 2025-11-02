@@ -29,23 +29,23 @@ export default {
         primary: {
           DEFAULT: "var(--primary)",
           foreground: "var(--primary-foreground)",
+          hover: "var(--primary-hover)",
         },
-        primaryHover: "var(--primary-hover)",
         secondary: {
           DEFAULT: "var(--secondary)",
           foreground: "var(--secondary-foreground)",
+          hover: "var(--secondary-hover)",
         },
-        secondaryHover: "var(--secondary-hover)",
         accent: {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
+          hover: "var(--accent-hover)",
         },
-        accentHover: "var(--accent-hover)",
         anchor: {
           DEFAULT: "var(--anchor)",
           foreground: "var(--anchor-foreground)",
+          hover: "var(--anchor-hover)",
         },
-        anchorHover: "var(--anchor-hover)",
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
