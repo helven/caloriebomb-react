@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 
 // 2. Asset imports
-import useAppStore from '@/stores/useAppStore';
 
 // 3. Component imports
 import { useNavigationService } from '@/services/navigation';
@@ -14,8 +13,12 @@ function HeaderSearchBar({
   redirectTo = '',
 }) {
   const navigation = useNavigationService();
-  const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
-  const [localSearchValue, setLocalSearchValue] = useState(globalSearchQuery); // set localSearchValue from globalSearchQuery
+  const [localSearchValue, setLocalSearchValue] = useState('');
+
+  useEffect(() => {
+    const urlSearch = navigation.getQueryString('search');
+    setLocalSearchValue(urlSearch);
+  }, [navigation.getQueryString('search')]);
 
   const { performSearch } = useSearch({
     redirectTo

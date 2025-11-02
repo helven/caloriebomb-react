@@ -1,14 +1,13 @@
 // @ts-nocheck : JS compatible
+// SERVER-SIDE PAGINATION VERSION
 // 1. React and React ecosystem imports
 import { useState, useEffect } from 'react';
 
 // 2. Asset imports
-import { mockFoods } from "@/data/mockData";
-import useAppStore from '@/stores/useAppStore';
 
 // 3. Project services and utilities
 import { useNavigationService } from '@/services/navigation';
-import { useFilterData, useSortData, usePaginateData } from '@/hooks/useProcessListingData';
+import { foodService } from '@/services/api/food/foodService';
 
 // 4. Components and UI elements
 import { Link } from '@/components/common/Link';
@@ -20,109 +19,62 @@ import ListingFilter from '@/app/foods/components/ListingFilter';
 function FoodList() {
   const navigation = useNavigationService();
 
-  // Search
-  const { globalSearchQuery, setGlobalSearchQuery } = useAppStore();
-  const [filters, setFilters] = useState({
-    category: navigation.getQueryString('category') || ''
-  });
-  const [sortBy, setSortBy] = useState(navigation.getQueryString('sortby') || 'name');
-  const [sortOrder, setSortOrder] = useState(navigation.getQueryString('sortorder') || 'asc');
-
   // data source
   const [foods, setFoods] = useState([]);
 
   // Filter section
   const [isFilterVisible, setIsFilterVisible] = useState(true);
 
+  // Filter, sorting
+  const category = navigation.getQueryString('category') || '';
+  const search = navigation.getQueryString('search') || '';
+  const sortBy = navigation.getQueryString('sortby') || 'name';
+  const sortOrder = navigation.getQueryString('sortorder') || 'asc';
+
   // Pagination
-  const [itemsPerPage, setItemsPerPage] = useState(9);
-  const [currentPage, setCurrentPage] = useState(() => {
-    const page = navigation.getQueryString('page');
-    return page && Number(page) > 0 ? Number(page) : 1;
-  });
-  const [totalPages, setTotalPages] = useState(9);
+  const [totalItems, setTotalItems] = useState(0);
+  const currentPage = Number(navigation.getQueryString('page')) || 1;
+  const itemsPerPage = Number(navigation.getQueryString('per_page')) || 9;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const pagingStartIndex = Math.max(0, currentPage - 5);
   const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
 
-  // Process Data: Filter food
-  const filteredFoods = useFilterData({
-    dataSource: foods,
-    searchQuery: globalSearchQuery,
-    filters
-  });
-
-  // Process Data: Sort food
-  const sortedFoods = useSortData({
-    dataSource: filteredFoods,
-    sortBy,
-    sortOrder
-  });
-
-  // Process Data: Paginate food
-  const paginatedFoods = usePaginateData({
-    dataSource: sortedFoods,
-    currentPage,
-    itemsPerPage
-  });
-
-  // Set mock data to foods state
+  // Fetch foods data from server with all filters/sorting/pagination
   useEffect(() => {
-    //setFoods(mockFoods);
     const fetchFoods = async () => {
-      if (!hasValidToken()) {
-        console.error('Invalid token for API access');
-        return;
-      }
-
       try {
-        const response = await api.getFoods();
-        setFoods(response.data);
+        const response = await foodService.getAllFoods({
+          page: currentPage,
+          per_page: itemsPerPage,
+          sortby: sortBy,
+          sortorder: sortOrder,
+          category: category,
+          search: search
+        });
+        const foods = response.data;
+        if (!foods.success) {
+          return;
+        }
+
+        // Calculate with fetched data from server
+        const fetchedTotal = foods.data.total;
+        const fetchedTotalPages = Math.ceil(fetchedTotal / itemsPerPage);
+        
+        // When user navigate to page beyond the total pages, reset to page 1
+        if (currentPage > fetchedTotalPages && fetchedTotalPages > 0) {
+          navigation.setQueryString('page', '1');
+          return; // Exit early, new fetch will happen with page=1
+        }
+
+        setFoods(foods.data.items);
+        setTotalItems(foods.data.total); // Server provides total count
       } catch (error) {
-        console.error('Failed to fetch foods:', error);
+        console.error('Error fetching foods:', error);
       }
     };
 
     fetchFoods();
-  }, []);
-
-  // Set category from query string to filters state
-  useEffect(() => {
-    const categoryFromUrl = navigation.getQueryString('category');
-    if (categoryFromUrl !== filters.category) {
-      setFilters(prevFilters => ({
-        ...prevFilters,
-        category: categoryFromUrl
-      }));
-    }
-  }, [navigation.getQueryString('category')]);
-
-  // Set sortby from query string to sortBy state
-  useEffect(() => {
-    const sortByFromUrl = navigation.getQueryString('sortby');
-    if (sortByFromUrl !== sortBy) {
-      setSortBy(sortByFromUrl || 'name');
-    }
-  }, [navigation.getQueryString('sortby')]);
-
-  // Set sortorder from query string to sortORder state
-  useEffect(() => {
-    const sortOrderFromUrl = navigation.getQueryString('sortorder');
-    if (sortOrderFromUrl !== sortOrder) {
-      setSortOrder(sortOrderFromUrl || 'asc');
-    }
-  }, [navigation.getQueryString('sortorder')]);
-
-  // Calculate total pages separately to react to itemsPerPage changes
-  useEffect(() => {
-    setTotalPages(Math.ceil(filteredFoods.length / itemsPerPage));
-  }, [filteredFoods, itemsPerPage]);
-
-  // When user nagivate to page beyond the total pages, reset to page 1
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(1);
-    }
-  }, [currentPage, totalPages, itemsPerPage]);
+  }, [currentPage, itemsPerPage, sortBy, sortOrder, category, search]); // Refetch when any param changes
 
   return (
     <>
@@ -142,7 +94,7 @@ function FoodList() {
             <div>
               <h1 className="text-3xl font-bold">All Foods</h1>
               <div className="text-left text-sm">
-                Showing {paginatedFoods.length} of {filteredFoods.length} foods
+                Showing {foods.length} of {totalItems} foods
               </div>
             </div>
             <button
@@ -166,14 +118,10 @@ function FoodList() {
         <ListingFilter
           className={`${isFilterVisible ? '' : 'hidden'}`}
           category={{
-            value: filters.category,
+            value: category,
             onChange: (e) => {
-              setFilters(prevFilters => ({
-                ...prevFilters,
-                category: e.target.value
-              }));
               if (e.target.value) {
-                navigation.updateQueryString('category', e.target.value);
+                navigation.setQueryString('category', e.target.value);
               } else {
                 navigation.removeQueryString('category');
               }
@@ -183,9 +131,8 @@ function FoodList() {
           sortBy={{
             value: sortBy,
             onChange: (e) => {
-              setSortBy(e.target.value);
               if (e.target.value) {
-                navigation.updateQueryString('sortby', e.target.value);
+                navigation.setQueryString('sortby', e.target.value);
               } else {
                 navigation.removeQueryString('sortby');
               }
@@ -195,9 +142,8 @@ function FoodList() {
           sortOrder={{
             value: sortOrder,
             onChange: (e) => {
-              setSortOrder(e.target.value);
               if (e.target.value) {
-                navigation.updateQueryString('sortorder', e.target.value);
+                navigation.setQueryString('sortorder', e.target.value);
               } else {
                 navigation.removeQueryString('sortorder');
               }
@@ -207,18 +153,17 @@ function FoodList() {
 
         <section>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paginatedFoods
-              .map((food) => (
-                <FoodCard key={food.id} food={food} />
-              ))}
+            {foods.map((food) => (
+              <FoodCard key={food.id} food={food} />
+            ))}
           </div>
         </section>
 
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={setCurrentPage}
-          onItemsPerPageChange={setItemsPerPage}
+          onPageChange={(page) => navigation.setQueryString('page', String(page))}
+          onItemsPerPageChange={(perPage) => navigation.setQueryString('per_page', String(perPage))}
           itemsPerPage={itemsPerPage}
           pagingStartIndex={pagingStartIndex}
           pagingEndIndex={pagingEndIndex}

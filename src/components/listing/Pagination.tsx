@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 // 2. Asset imports
 
 // 3. Project services and utilities
-import { useNavigationService } from '@/services/navigation';
 import { formatNutrient } from '@/utils/formatters';
 
 // 4. Components and UI elements
@@ -13,7 +12,6 @@ import { Link } from '@/components/common/Link';
 import ArrowProps from '@/components/props/ArrowProps';
 
 function Pagination({ currentPage, totalPages, onPageChange, onItemsPerPageChange, itemsPerPage, pagingStartIndex, pagingEndIndex, textPerPage }) {
-  const navigation = useNavigationService();
 
   return (
     <section className="flex flex-col md:flex-row justify-between items-center">

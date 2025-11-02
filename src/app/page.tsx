@@ -1,7 +1,6 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
 import { useState, useEffect } from 'react';
-//import { useMemo } from 'react'
 
 // 2. Asset imports
 import { mockFoods } from "@/data/mockData";
@@ -72,7 +71,7 @@ function Home() {
 
             {featuredFoods.data.items
               .sort(() => 0.5 - Math.random())
-            .slice(0, 6)
+              .slice(0, 6)
               .map((food) => (
             <FoodCard key={food.id} food={food} />
             ))}

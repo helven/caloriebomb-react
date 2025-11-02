@@ -9,7 +9,7 @@ export interface NavigationService {
   getParams: () => Record<string, string>;
   getQueryParams: () => URLSearchParams;
   getQueryString: (param?: string) => string;
-  updateQueryString: (key: string, value: string) => void;
+  setQueryString: (key: string, value: string) => void;
   removeQueryString: (key: string) => void;
 }
 
@@ -46,7 +46,7 @@ export const useNavigationService = (): NavigationService => {
     return param ? (stableSearchParams.current.get(param) ?? '') : '';
   }).current;
 
-  const updateQueryString = useRef((key: string, value: string) => {
+  const setQueryString = useRef((key: string, value: string) => {
     const newSearchParams = new URLSearchParams(stableSearchParams.current);
     newSearchParams.set(key, value);
     // Use React Router's batched updates
@@ -87,7 +87,7 @@ export const useNavigationService = (): NavigationService => {
     getParams: () => sanitizeParams(params),
     getQueryParams: () => searchParams,
     getQueryString,
-    updateQueryString,
+    setQueryString,
     removeQueryString: removeQueryString,
   };
 };

@@ -18,21 +18,21 @@ export const useSearch = ({ redirectTo } = {}) => {
     // globalSearchQuery is used by the listing to filter the results
     setGlobalSearchQuery(query);
 
-    if (query === '') {
-      navigation.removeQueryString('search');
-    } else {
-      navigation.updateQueryString('search', query);
-    }
-
-    // Enable redirection to actual results page
-    // Eg This handles searches initiated from homepage and redirect to foods page for search result
+    // Handles searches initiated from homepage and redirect to foods page for search result
     if (navigation.getCurrentPath() !== redirectTo) {
       if (query === '') {
         return;
       }
-      navigation.navigateWithQuery(redirectTo, {
+      navigation.navigate(redirectTo, {
         search: query,
       })
+      return;
+    }
+
+    if (query === '') {
+      navigation.removeQueryString('search');
+    } else {
+      navigation.setQueryString('search', query);
     }
   };
 
