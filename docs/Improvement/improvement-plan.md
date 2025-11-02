@@ -1,8 +1,8 @@
-# React.js Developer Portfolio Improvement Plan
+# Improvement Plan
 
 ## Job Requirements Context
 
-**General Requirements (3+ years React Developer):**
+**General Requirements:**
 - Strong React (hooks, components, lifecycle)
 - State management (Redux/Flux)
 - API handling (REST, JWT)
