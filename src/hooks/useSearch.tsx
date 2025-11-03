@@ -21,6 +21,7 @@ export const useSearch = ({ redirectTo } = {}) => {
     // Handles searches initiated from homepage and redirect to foods page for search result
     if (navigation.getCurrentPath() !== redirectTo) {
       if (query === '') {
+        navigation.removeQueryString('search');
         return;
       }
       navigation.navigate(redirectTo, {

@@ -26,9 +26,9 @@ function SearchBar({
   const timerRef = useRef(null);
 
   useEffect(() => {
-    if (handleUrlSearch) { // only handle URL search when only allowed one is reacting to the URL search
-      handleSearchQueryString();
-    }
+    //if (handleUrlSearch) { // only handle URL search when only allowed one is reacting to the URL search
+    //  handleSearchQueryString();
+    //}
   }, []);
 
   // Search Query String handler
@@ -69,7 +69,7 @@ function SearchBar({
   };
 
   // Search input key down handler
-  const handleInputKeyDown = (e) => {
+  const handleInputKeyDown = (e) => {console.log('aa')
     if (e.key === 'Enter') {
       performSearch(localSearchValue);
     }

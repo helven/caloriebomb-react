@@ -7,12 +7,16 @@ export const foodService = {
     sortby = 'name',
     sortorder = 'asc',
     per_page = 9,
-    page = 1
+    page = 1,
+    category = '',
+    search = '',
   }: {
     sortby?: string;
     sortorder?: 'asc' | 'desc';
     per_page?: number;
     page?: number;
+    category?: string;
+    search?: string;
   } = {}) => {
     const queryParams = new URLSearchParams();
 
@@ -21,6 +25,8 @@ export const foodService = {
     if (sortorder) queryParams.append('sortorder', sortorder);
     if (per_page) queryParams.append('per_page', per_page.toString());
     if (page) queryParams.append('page', page.toString());
+    if (category) queryParams.append('category_id', category.toString());
+    if (search) queryParams.append('search', search.toString());
 
     return coreServices.api.get(`${API_ROUTES.FOODS.BASE}?${queryParams}`);
   },
