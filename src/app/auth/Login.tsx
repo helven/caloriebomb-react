@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { authService } from '@/services/api/auth/authService';
+// import { authService } from '@/services/api/auth/authService';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -7,21 +7,23 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      const result = await authService.login(email, password);
+      // TODO: Implement login functionality
+      setError('Login not implemented yet');
+      // const result = await authService.login(email, password);
       
-      if (!result.success) {
-        setError(result.error);
-        return;
-      }
+      // if (!result.success) {
+      //   setError(result.error);
+      //   return;
+      // }
       
-      // Redirect or update UI state after successful login
-      window.location.href = '/dashboard'; // or use React Router navigation
+      // // Redirect or update UI state after successful login
+      // window.location.href = '/dashboard'; // or use React Router navigation
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
     } finally {
