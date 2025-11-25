@@ -8,16 +8,16 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Tech Stack](#tech-stack)
-- [Key Features](#key-features)
-- [Architecture](#architecture)
-- [Technical Highlights](#technical-highlights)
-- [Setup & Installation](#setup--installation)
-- [Project Structure](#project-structure)
-- [Deployment](#deployment)
-- [Future Improvements](#future-improvements)
-- [Contact](#contact)
+- [Overview](#-overview)
+- [Tech Stack](#️-tech-stack)
+- [Key Features](#-key-features)
+- [Architecture](#️-architecture)
+- [Technical Highlights](#-technical-highlights)
+- [Setup & Installation](#-setup--installation)
+- [Project Structure](#-project-structure)
+- [Deployment](#-deployment)
+- [Future Improvements](#-future-improvements)
+- [Contact](#-contact)
 
 ---
 
