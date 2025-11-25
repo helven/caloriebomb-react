@@ -35,11 +35,30 @@ const getToken = async () => {
   }
 };
 
-app.use(cors());
+// Only accept request from these origins
+app.use(cors({
+  origin: [
+    'http://localhost:5174',
+    'https://localhost:5174',
+    'http://caloriebomb-react.test:5174',
+    'https://caloriebomb.senjitsu.com',
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
+
 app.use(express.json());
 
+app.use((req, res, next) => {
+  const secret = req.headers['meta'];
+  if (secret !== process.env.API_SECRET) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  next();
+});
+
 app.use(async (req, res) => {
-  try {console.log('here')
+  try {
     const token = await getToken();
 
     const response = await axios({
