@@ -14,36 +14,35 @@ function HeaderSearchBar({
 }) {
   const navigation = useNavigationService();
   const [localSearchValue, setLocalSearchValue] = useState('');
+  const { performSearch } = useSearch({
+    redirectTo
+  });
 
   useEffect(() => {
     const urlSearch = navigation.getQueryString('search');
     setLocalSearchValue(urlSearch);
   }, [navigation.getQueryString('search')]);
 
-  const { performSearch } = useSearch({
-    redirectTo
-  });
   const timerRef = useRef(null);
-
-  // Search button click handler
-  const handleSearchClick = () => {
-    performSearch(localSearchValue);
-  };
 
   // Search input change handler
   const handleInputChange = (value) => {
-    value = value.trim();
     setLocalSearchValue(value);
 
-    if (value === '') {
+    if (value.trim() === '') {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
       timerRef.current = setTimeout(() => {
-        performSearch(value);
+        performSearch('');
         timerRef.current = null;
       }, 100);
     }
+  };
+
+  // Search button click handler
+  const handleSearchClick = () => {
+    performSearch(localSearchValue);
   };
 
   // Search input key down handler

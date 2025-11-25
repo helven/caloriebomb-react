@@ -53,7 +53,7 @@ export default defineConfig({
       hmr: {
         host: process.env.HMR_HOST || localIP, // Change this to your LAN-accessible hostname
         port: process.env.HMR_PORT ? Number(process.env.HMR_PORT) : 5174,
-      },
+      }
     },
   }),
 })

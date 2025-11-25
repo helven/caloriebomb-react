@@ -23,12 +23,13 @@ function SearchBar({
     const urlSearch = navigation.getQueryString('search');
     setLocalSearchValue(urlSearch);
   }, [navigation.getQueryString('search')]);
+
   const timerRef = useRef(null);
 
   useEffect(() => {
-    //if (handleUrlSearch) { // only handle URL search when only allowed one is reacting to the URL search
-    //  handleSearchQueryString();
-    //}
+    if (handleUrlSearch) { // only handle URL search when only allowed one is reacting to the URL search
+      handleSearchQueryString();
+    }
   }, []);
 
   // Search Query String handler
@@ -49,15 +50,14 @@ function SearchBar({
 
   // Search input change handler
   const handleInputChange = (value) => {
-    value = value.trim();
     setLocalSearchValue(value);
 
-    if (value === '') {
+    if (value.trim() === '') {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
       timerRef.current = setTimeout(() => {
-        performSearch(value);
+        performSearch('');
         timerRef.current = null;
       }, 100);
     }
@@ -69,7 +69,7 @@ function SearchBar({
   };
 
   // Search input key down handler
-  const handleInputKeyDown = (e) => {console.log('aa')
+  const handleInputKeyDown = (e) => {
     if (e.key === 'Enter') {
       performSearch(localSearchValue);
     }

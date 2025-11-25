@@ -17,7 +17,7 @@ import Pagination from '@/components/listing/Pagination';
 import ListingFilter from '@/app/foods/components/ListingFilter';
 
 function FoodList() {
-  const navigation = useNavigationService();
+  const navigation = useNavigationService(); // Calling useSearchParams() (inside useNavigationService) subscribes this component to URL changes
 
   // data source
   const [foods, setFoods] = useState([]);

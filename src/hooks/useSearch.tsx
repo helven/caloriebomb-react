@@ -8,7 +8,7 @@ import useAppStore from '@/stores/useAppStore';
 import { useNavigationService } from '@/services/navigation';
 
 export const useSearch = ({ redirectTo } = {}) => {
-  const { setGlobalSearchQuery } = useAppStore();
+  //const { setGlobalSearchQuery } = useAppStore();
   const navigation = useNavigationService();
 
 
@@ -16,7 +16,7 @@ export const useSearch = ({ redirectTo } = {}) => {
     query = query.trim();
     // Set the global search query when the search is performed
     // globalSearchQuery is used by the listing to filter the results
-    setGlobalSearchQuery(query);
+    //setGlobalSearchQuery(query);
 
     // Handles searches initiated from homepage and redirect to foods page for search result
     if (navigation.getCurrentPath() !== redirectTo) {

@@ -18,6 +18,10 @@ export class ApiService {
     // Axios Request Interceptor (before fetch): Attach bearer token to all requests
     this.api.interceptors.request.use(
       async (config) => {
+        return config; 
+        // app now connect to api through local node server
+        // local node server doesn't need token, code below will not be used
+
         // Get bearer token with API auth service
         const token = await authServices.auth.getToken();
         if (token) {
