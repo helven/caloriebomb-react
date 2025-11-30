@@ -1,12 +1,11 @@
-@import '@/styles/food/styles.css';
+@import './food/styles.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans';
 }
 
 @layer utilities {
@@ -21,7 +20,7 @@ body {
     --background: oklch(0.98 0.02 72.96);
     --foreground: oklch(0.446 0.03 256.802);
     --card1: oklch(1 0 0);
-    --card1-foreground: oklch(0.40 0.03 250.65);
+    --card1-foreground: oklch(0.4 0.03 250.65);
     --card2: oklch(0.928 0.006 264.531);
     --card2-foreground: oklch(0.373 0.034 259.733);
     --card3: oklch(0.967 0.003 264.542);
@@ -35,9 +34,9 @@ body {
     --accent-foreground: oklch(0.98 0 0);
     --secondary: oklch(0.928 0.006 264.531);
     --secondary-foreground: oklch(0.373 0.034 259.733);
-    --secondary-hover: oklch(0.8 0.00 0);
+    --secondary-hover: oklch(0.8 0 0);
 
-    --anchor-foreground: oklch(0.40 0.03 250.65);
+    --anchor-foreground: oklch(0.4 0.03 250.65);
     --anchor-hover: oklch(0.7 0.19 47.6);
 
     --popover: oklch(1 0 0);
@@ -50,9 +49,9 @@ body {
     --input: oklch(0.89 0 0);
     --ring: oklch(0.157 0 0);
     --chart-1: oklch(0.69 0.15 29.23);
-    --chart-2: oklch(0.60 0.12 167.23);
+    --chart-2: oklch(0.6 0.12 167.23);
     --chart-3: oklch(0.35 0.05 220.23);
-    --chart-4: oklch(0.80 0.12 92.23);
+    --chart-4: oklch(0.8 0.12 92.23);
     --chart-5: oklch(0.75 0.15 48.23);
   }
 
@@ -66,7 +65,7 @@ body {
     --card2: oklch(0.373 0.034 259.733);
     --card2-foreground: oklch(0.872 0.01 258.338);
     --card3: oklch(0.373 0.034 259.733);
-    --card3-foreground: oklch(0.40 0.03 250.65);
+    --card3-foreground: oklch(0.4 0.03 250.65);
 
     --primary: oklch(0.7 0.19 47.6);
     --primary-hover: oklch(0.646 0.222 41.116);
@@ -91,10 +90,10 @@ body {
     --input: oklch(0.149 0 0);
     --ring: oklch(0.831 0 0);
     --chart-1: oklch(0.65 0.15 255.09);
-    --chart-2: oklch(0.70 0.12 167.23);
+    --chart-2: oklch(0.7 0.12 167.23);
     --chart-3: oklch(0.75 0.18 75.23);
     --chart-4: oklch(0.65 0.15 320.23);
-    --chart-5: oklch(0.70 0.18 20.23);
+    --chart-5: oklch(0.7 0.18 20.23);
   }
 }
 
@@ -123,19 +122,19 @@ body {
     @apply text-anchor-hover;
   }
 
-  input[type="number"] {
+  input[type='number'] {
     @apply appearance-none;
   }
 
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
     @apply appearance-none;
     @apply m-0;
   }
 
   button.btn,
   a.btn {
-    @apply px-6 py-3 bg-orange-500 text-white font-medium rounded-md transition-colors duration-300;
+    @apply rounded-md bg-orange-500 px-6 py-3 font-medium text-white transition-colors duration-300;
   }
 
   .btn-primary,
@@ -175,20 +174,20 @@ body {
   }
 
   section.page-breadcrumb {
-    @apply container mx-auto px-4 mb-4;
+    @apply container mx-auto mb-4 px-4;
   }
 
   section.page-header {
-    @apply py-16 px-4;
+    @apply px-4 py-16;
   }
 
-  form input:not([type="radio"]):not([type="checkbox"]),
+  form input:not([type='radio']):not([type='checkbox']),
   form select,
   form textarea {
-    @apply w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 border-gray-300
+    @apply w-full rounded-md border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
   }
 
   form label {
-    @apply block text-gray-700 dark:text-gray-300 font-medium mb-2;
+    @apply mb-2 block font-medium text-gray-700 dark:text-gray-300;
   }
 }
