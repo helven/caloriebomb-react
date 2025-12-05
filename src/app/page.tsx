@@ -34,7 +34,7 @@ function Home() {
           per_page: 6,
         });
         const foods = response.data;
-        console.log(foods);
+
         setFeaturedFoods(foods);
         // Use the foods data
       } catch (error) {
