@@ -1,5 +1,5 @@
 // Typescript file
-import { coreServices } from '@/services/api/core/';
+import { apiService } from '@/services/api/core/apiService';
 import { API_ROUTES } from '@/constants/apiRoutes';
 
 export const foodService = {
@@ -25,11 +25,11 @@ export const foodService = {
     if (sortorder) queryParams.append('sortorder', sortorder);
     if (per_page) queryParams.append('per_page', per_page.toString());
     if (page) queryParams.append('page', page.toString());
-    if (category) queryParams.append('category_id', category.toString());
+    if (category) queryParams.append('category_slug', category.toString());
     if (search) queryParams.append('search', search.toString());
 
-    return coreServices.api.get(`${API_ROUTES.FOODS.BASE}?${queryParams}`);
+    return apiService.get(`${API_ROUTES.FOODS.BASE}?${queryParams}`);
   },
-  getFoodById: (id: string) => coreServices.api.get(API_ROUTES.FOODS.BY_ID(id)),
-  getFoodsByCategory: (category_id: string) => coreServices.api.get(`${API_ROUTES.FOODS.BASE}?category=${category_id}`),
+  getFoodById: (id: string) => apiService.get(API_ROUTES.FOODS.BY_ID(id)),
+  getFoodsByCategory: (category_id: string) => apiService.get(`${API_ROUTES.FOODS.BASE}?category=${category_id}`),
 };
