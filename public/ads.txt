@@ -1,0 +1,4 @@
+# ads.txt file for caloriebomb.com
+
+# Google AdSense
+google.com, pub-5115912435032743, DIRECT, f08c47fec0942fa0
