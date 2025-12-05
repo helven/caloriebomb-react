@@ -1,21 +1,23 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // 2. Asset imports
 
 // 3. Component imports
-import { useNavigationService } from '@/services/navigation';
 import SearchButton from '@/components/SearchButton';
 import { useSearch } from '@/hooks/useSearch';
+import { useNavigationService } from '@/services/navigation';
 
-function HeaderSearchBar({
-  redirectTo = '',
-}) {
+type Props = {
+  redirectTo?: string
+}
+
+function HeaderSearchBar({ redirectTo = '' }: Props) {
   const navigation = useNavigationService();
   const [localSearchValue, setLocalSearchValue] = useState('');
   const { performSearch } = useSearch({
-    redirectTo
+    redirectTo,
   });
 
   useEffect(() => {
@@ -50,7 +52,7 @@ function HeaderSearchBar({
     if (e.key === 'Enter') {
       performSearch(localSearchValue);
     }
-  }
+  };
 
   return (
     <>
@@ -60,14 +62,9 @@ function HeaderSearchBar({
         onChange={(e) => handleInputChange(e.target.value)}
         onKeyDown={(e) => handleInputKeyDown(e)}
         placeholder="Search for foods..."
-        className="pl-3 pr-10 py-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 w-64"
+        className="w-64 rounded-full border border-gray-300 py-1 pl-3 pr-10 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
       />
-      <SearchButton
-        className="absolute text-gray-400"
-        width="16"
-        height="16"
-        onClick={handleSearchClick}
-      />
+      <SearchButton className="absolute text-gray-400" width="16" height="16" onClick={handleSearchClick} />
     </>
   );
 }

@@ -1,12 +1,14 @@
-// @ts-nocheck : JS compatible
-import React, { useEffect } from "react";
 import useAppStore from '@/stores/useAppStore'
 
-function ThemeModeButton() {
+type Props = {
+  className?: string
+}
+
+function ThemeModeButton({ className = '' }: Props) {
   const { themeMode, setThemeMode } = useAppStore();
 
   return (
-    <button className="text-xl" onClick={() => setThemeMode()}>
+    <button className={`${className} text-xl`} onClick={() => setThemeMode()}>
       {themeMode === 'dark' ? '☀️' : '🌙'}
     </button>
   );

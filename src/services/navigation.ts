@@ -1,4 +1,3 @@
-// Typescript file
 // Next.js compatible
 import { useRef } from 'react';
 import { useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom';
@@ -14,7 +13,7 @@ export interface NavigationService {
 }
 
 // Create a hook that handles all React Router dependencies
-export const useNavigationService = (): NavigationService => {
+const useNavigationService = (): NavigationService => {
   const navigate = useNavigate();
   const location = useLocation();
   let params = useParams();
@@ -91,3 +90,6 @@ export const useNavigationService = (): NavigationService => {
     removeQueryString: removeQueryString,
   };
 };
+
+export { useNavigationService };
+export default useNavigationService;

@@ -1,4 +1,3 @@
-// Typescript file
 import { apiService } from '@/services/api/core/apiService';
 import { API_ROUTES } from '@/constants/apiRoutes';
 
