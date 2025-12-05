@@ -3,6 +3,7 @@ import Home from '@/app/page';
 import About from '@/app/about/page';
 import Pricing from '@/app/pricing/page';
 import Contact from '@/app/contact/page';
+import PrivacyPolicy from '@/app/privacy/page';
 import FoodDetail from '@/app/foods/[id]/page';
 import FoodList from '@/app/foods/page';
 import SubmitFood from '@/app/foods/SubmitFood';
@@ -16,6 +17,7 @@ const routes = [
       { path: '/about', element: <About /> },
       { path: '/pricing', element: <Pricing /> },
       { path: '/contact', element: <Contact /> },
+      { path: '/privacy-policy', element: <PrivacyPolicy /> },
       { path: '/foods', element: <FoodList /> },
       { path: '/foods/:id', element: <FoodDetail /> },
       { path: '/foods/submit-food', element: <SubmitFood /> },

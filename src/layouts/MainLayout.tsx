@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet } from 'react-router-dom'
 
 //import { useTheme } from "@/hooks/useTheme";
+import { Link } from '@/components/common/Link';
 import useAppStore from '@/stores/useAppStore'
 import Header from '@/layouts/components/Header'
 import Logo from '@/components/Logo'
@@ -27,7 +28,7 @@ function MainLayout({ children }) {
       </main>
 
       <footer className="bg-card1 py-6 mt-auto">
-        <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">© 2025 CalorieBomb. All rights reserved.</div>
+        <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">© { new Date().getFullYear() } CalorieBomb. All rights reserved. <Link href="/privacy-policy">Privacy Policy</Link></div>
       </footer>
     </div>
   );
