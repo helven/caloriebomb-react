@@ -8,7 +8,7 @@
 import PageHeading from '@/components/common/PageHeading';
 
 function Pricing() {
-  const plans: Array<{ name: string; price: string; description: string; features: string[] }> = [
+  const plans: Array<{ name: string; price: string; description: string; features: string[]; comingSoon?: boolean }> = [
     {
       name: '🧨 Free - "Basic Dynamite"',
       price: 'Free',
@@ -26,6 +26,7 @@ function Pricing() {
         'Weekly calorie summary',
         'Email support',
       ],
+      comingSoon: true,
     },
     {
       name: '☢️ Trainer - "Nuklear"',
@@ -38,6 +39,7 @@ function Pricing() {
         '1 trainer + 5 student accounts',
         'Simple progress insights',
       ],
+      comingSoon: true,
     },
   ];
 
@@ -60,8 +62,13 @@ function Pricing() {
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className="flex flex-col rounded-lg border border-gray-200 bg-card1 p-8 shadow-md transition-shadow"
+              className="relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-card1 p-8 shadow-md transition-shadow"
             >
+              {plan.comingSoon && (
+                <div className="absolute -right-12 top-6 w-40 rotate-45 bg-gray-500 py-1 text-center text-sm font-bold text-white shadow-sm">
+                  coming soon
+                </div>
+              )}
               <h3 className="text-2xl font-bold text-gray-900">{plan.name}</h3>
               <p className="mt-4 flex text-gray-500">{plan.description}</p>
               <p className="mt-4 text-lg font-bold text-gray-900">{plan.price}</p>
