@@ -51,8 +51,10 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   const secret = req.headers['meta'];
-  if (secret !== process.env.API_SECRET) {
-    return res.status(403).json({ error: 'Forbidden' });
+  if (process.env.NODE_ENV === 'production') {
+    if (secret !== process.env.API_SECRET) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
   }
   next();
 });
