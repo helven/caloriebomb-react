@@ -19,7 +19,7 @@ function Contact() {
           title="Contact Us"
           description=""
           className="text-center"
-          banner="/src/assets/images/contact/main-banner.jpg"
+          banner="/assets/images/contact/main-banner.jpg"
         />
         <section className="container mx-auto px-4 py-8">
           <p className="mt-4">We're always improving CalorieBomb.</p>

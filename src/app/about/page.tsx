@@ -19,7 +19,7 @@ function About() {
           title="About Us"
           description=""
           className="text-center"
-          banner="/src/assets/images/about/main-banner.jpg"
+          banner="/assets/images/about/main-banner.jpg"
         />
 
         <section className="container mx-auto px-4">
