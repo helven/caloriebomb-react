@@ -7,7 +7,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 
 // State Management
 import { useSelector, useDispatch } from "react-redux";
-import { addFoodComparison } from "@/tobe_deleted/foodComparison/slice";
+// import { addFoodComparison } from "@/tobe_deleted/foodComparison/slice";
 
 // -----------------------------------------------------------------------------
 // INTERNAL DEPENDENCIES
@@ -103,7 +103,7 @@ function FoodDetail() {
 
   // --- Handlers -------------------------------------------------------------
   function handleAddToCompare() {
-    dispatch(addFoodComparison(food));
+    // dispatch(addFoodComparison(food));
   }
 
   // --- Render ---------------------------------------------------------------

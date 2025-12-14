@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import foodsReducer from "@/store/slices/foods/foodsSlice";
-import foodComparisonReducer from "@/tobe_deleted/foodComparison/slice";  // to be deleted
+// import foodComparisonReducer from "@/tobe_deleted/foodComparison/slice";  // to be deleted
 
 const store = configureStore({
     reducer: {
