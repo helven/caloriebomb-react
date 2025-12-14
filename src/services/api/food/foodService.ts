@@ -29,6 +29,6 @@ export const foodService = {
 
     return apiService.get(`${API_ROUTES.FOODS.BASE}?${queryParams}`);
   },
-  getFoodById: (id: number) => apiService.get(API_ROUTES.FOODS.BY_ID(id)),
-  getFoodsByCategory: (category_id: number) => apiService.get(`${API_ROUTES.FOODS.BASE}?category=${category_id}`),
+  getFoodById: (id: number) => apiService.get(API_ROUTES.FOODS.BY_ID(String(id))),
+  // getFoodsByCategory: (category_id: number | string) => apiService.get(`${API_ROUTES.FOODS.BASE}?category=${category_id}`),
 };

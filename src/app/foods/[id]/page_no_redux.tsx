@@ -48,7 +48,7 @@ function FoodDetail() {
   const navigation = useNavigationService();
 
   // --- URL State ------------------------------------------------------------
-  const foodId = navigation.getParams().id ?? '';
+  const foodId = Number(navigation.getParams().id ?? 0);
 
   // --- Local State ----------------------------------------------------------
   const [showCompareModal, setShowCompareModal] = useState(false);
