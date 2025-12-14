@@ -38,12 +38,15 @@ const getToken = async () => {
 // Only accept request from these origins
 app.use(cors({
   origin: [
+    'http://localhost:5173',
     'http://localhost:5174',
-    'https://localhost:5174',
+    'http://localhost:4173',
+    'http://caloriebomb-react.test:5173',
     'http://caloriebomb-react.test:5174',
+    'http://caloriebomb-react.test:4173',
     'https://caloriebomb.senjitsu.com',
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
 

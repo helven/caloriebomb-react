@@ -29,7 +29,7 @@ function Home() {
 
     const fetchFoods = async () => {
       try {
-        const response = await foodService.getAllFoods({
+        const response = await foodService.getFoods({
           sortby: 'random',
           per_page: 6,
         });
@@ -65,7 +65,7 @@ function Home() {
       {featuredFoods.success && (
         <section className="container mx-auto px-4 py-8">
           <h3 className="text-2xl font-bold text-center mb-8 dark:text-white">
-            <span>🔥</span> Featured Foods<span>🔥</span>
+            <span>🔥</span> Featured Foods <span>🔥</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 

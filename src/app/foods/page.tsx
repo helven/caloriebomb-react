@@ -26,26 +26,26 @@ function FoodList() {
   const [isFilterVisible, setIsFilterVisible] = useState(true);
 
   // Filter, sorting
-  const category = navigation.getQueryString('category') || '';
-  const search = navigation.getQueryString('search') || '';
-  const sortBy = navigation.getQueryString('sortby') || 'name';
-  const sortOrder = navigation.getQueryString('sortorder') || 'asc';
+  const category: string = navigation.getQueryString('category') || '';
+  const search: string = navigation.getQueryString('search') || '';
+  const sortBy: string = navigation.getQueryString('sortby') || 'name';
+  const sortOrder: 'asc' | 'desc' = navigation.getQueryString('sortorder') as 'asc' | 'desc' || 'asc';
 
   // Pagination
   const [totalItems, setTotalItems] = useState(0);
-  const currentPage = Number(navigation.getQueryString('page')) || 1;
-  const itemsPerPage = Number(navigation.getQueryString('per_page')) || 9;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const pagingStartIndex = Math.max(0, currentPage - 5);
-  const pagingEndIndex = Math.min(totalPages - 1, pagingStartIndex + 5);
+  const currentPage: number = Number(navigation.getQueryString('page')) || 1;
+  const itemsPerPage: number = Number(navigation.getQueryString('per_page')) || 9;
+  const totalPages: number = Math.ceil(totalItems / itemsPerPage);
+  const pagingStartIndex: number = Math.max(0, currentPage - 5);
+  const pagingEndIndex: number = Math.min(totalPages - 1, pagingStartIndex + 5);
 
   // Fetch foods data from server with all filters/sorting/pagination
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const response = await foodService.getAllFoods({
+        const response = await foodService.getFoods({
           page: currentPage,
-          per_page: itemsPerPage,
+          perpage: itemsPerPage,
           sortby: sortBy,
           sortorder: sortOrder,
           category: category,
@@ -69,7 +69,7 @@ function FoodList() {
         setFoods(foods.data.items);
         setTotalItems(foods.data.total); // Server provides total count
       } catch (error) {
-        console.error('Error fetching foods:', error);
+        console.error('Error fetching food: ', error);
       }
     };
 

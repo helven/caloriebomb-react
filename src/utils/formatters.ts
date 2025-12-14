@@ -9,12 +9,14 @@
 // Next.js compatible
 export const formatNutrient = (value: number | null | undefined): string => {
   if (!value) return '0';
-  return value >= 1
-    ? Math.floor(value).toString()
-    : (value < 0.1
-      ? '0'
-      : Number(value).toFixed(1));
+  
+  if (value < 0.1) return '0';
+  
+  return value % 1 === 0 
+    ? value.toString() 
+    : Number(value).toFixed(2);
 };
+
 
 /**
  * Formats currency values

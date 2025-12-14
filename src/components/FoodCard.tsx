@@ -9,6 +9,7 @@ import { formatNutrient } from '@/utils/formatters';
 import { Link } from '@/components/common/Link';
 
 function FoodCard({ food }) {
+  if (!food) return null;
 
   return (
     <div key={food.id}>
