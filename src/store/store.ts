@@ -4,7 +4,7 @@ import foodsReducer from "@/store/slices/foods/foodsSlice";
 
 const store = configureStore({
     reducer: {
-      foodComparison: foodComparisonReducer, // to be deleted
+      // foodComparison: foodComparisonReducer, // to be deleted
       foods: foodsReducer,
     },
 });
