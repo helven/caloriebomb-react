@@ -36,7 +36,8 @@ CalorieBomb is a portfolio project built to demonstrate modern React development
 - **TypeScript** - Type-safe development
 - **Vite** - Lightning-fast build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
-- **Zustand** - Lightweight state management
+- **Redux Toolkit** - Predictable state management with slices for food data
+- **Zustand** - Lightweight state management for theme and app-level state
 - **React Router DOM** - Client-side routing
 - **Axios** - HTTP client for API requests
 
@@ -216,7 +217,72 @@ Reusable logic extracted into custom hooks:
 - `useOnClickOutside` - Click outside detection
 - `useProcessListingData` - Data transformation (Earlier Implementation)
 
-### 5. Theme Persistence with Zustand
+### 5. Redux Toolkit with Custom Hook for Food Details
+
+Implemented Redux Toolkit with traditional slices and custom hooks for centralized state management on the Food Detail page:
+
+```typescript
+// store/slices/foods/foodsSlice.ts
+import { createSlice } from '@reduxjs/toolkit';
+
+const foodsSlice = createSlice({
+  name: 'foods',
+  initialState: {
+    byId: {},
+  },
+  reducers: {
+    setFood: (state, action) => {
+      state.byId[action.payload.id] = action.payload;
+    },
+  },
+});
+
+export const { setFood } = foodsSlice.actions;
+export default foodsSlice.reducer;
+```
+
+```typescript
+// hooks/useFoods.ts - Custom hook for food operations
+export const useFoods = () => {
+  const dispatch = useDispatch();
+
+  const fetchFoodById = async (foodId: number) => {
+    const response = await foodService.getFoodById(foodId);
+    dispatch(setFood(response.data.data));
+  };
+
+  return { fetchFoodById };
+};
+```
+
+```typescript
+// Usage in FoodDetailPage.tsx
+const FoodDetailPage = () => {
+  const { fetchFoodById } = useFoods();
+  const foodId = Number(navigation.getParams().id);
+  
+  // Get food from Redux store
+  const foodData = useSelector((state: RootState) => 
+    state.foods.byId[foodId]
+  );
+
+  useEffect(() => {
+    fetchFoodById(foodId);
+  }, [foodId]);
+  
+  return <FoodDetailView food={foodData} />;
+};
+```
+
+**Benefits:**
+- Centralized state management with Redux Toolkit
+- Custom hooks abstract Redux complexity from components
+- Type-safe with TypeScript
+- Normalized data structure (byId) for efficient lookups
+- Clean separation between data fetching and UI logic
+- Reduced boilerplate with createSlice
+
+### 6. Theme Persistence with Zustand
 
 Global state management with localStorage persistence:
 
@@ -236,7 +302,7 @@ const useAppStore = create<AppState>((set) => ({
 }));
 ```
 
-### 6. Clean Code Organization
+### 7. Clean Code Organization
 
 ```
 src/
