@@ -507,7 +507,7 @@ const usePaginationCache = () => {
 **Senjitsu**
 
 - LinkedIn: [https://www.linkedin.com/in/senjitsu/](https://www.linkedin.com/in/senjitsu/)
-- Portfolio: [https://caloriebomb.senjitsu.com](https://caloriebomb.senjitsu.com)
+- Portfolio: [https://www.caloriebomb.com](https://www.caloriebomb.com)
 
 ---
 
