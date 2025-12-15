@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Food, FoodsState } from "@/types";
 
+const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in ms
+
 const initialState: FoodsState = {
   byId: {},
   list: { ids: [], page: 1, status: 'idle' },
@@ -27,6 +29,7 @@ const foodsSlice = createSlice({
       state.byId[action.payload.id] = {
         ...action.payload,
         hasFullData: true,
+        expiresAt: Date.now() + CACHE_DURATION,
       };
     },
     addToCompare(state: FoodsState, action: PayloadAction<number>) {

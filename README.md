@@ -217,13 +217,15 @@ Reusable logic extracted into custom hooks:
 - `useOnClickOutside` - Click outside detection
 - `useProcessListingData` - Data transformation (Earlier Implementation)
 
-### 5. Redux Toolkit with Custom Hook for Food Details
+### 5. Redux Toolkit with Caching for Food Details
 
-Implemented Redux Toolkit with traditional slices and custom hooks for centralized state management on the Food Detail page:
+Implemented Redux Toolkit with slices, custom hooks, and a simple caching mechanism with expiration for the Food Detail page:
 
 ```typescript
 // store/slices/foods/foodsSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
+
+const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 
 const foodsSlice = createSlice({
   name: 'foods',
@@ -231,24 +233,40 @@ const foodsSlice = createSlice({
     byId: {},
   },
   reducers: {
-    setFood: (state, action) => {
-      state.byId[action.payload.id] = action.payload;
+    setFoodDetail: (state, action) => {
+      state.byId[action.payload.id] = {
+        ...action.payload,
+        hasFullData: true,
+        expiresAt: Date.now() + CACHE_DURATION,
+      };
     },
   },
 });
 
-export const { setFood } = foodsSlice.actions;
+export const { setFoodDetail } = foodsSlice.actions;
 export default foodsSlice.reducer;
 ```
 
 ```typescript
-// hooks/useFoods.ts - Custom hook for food operations
+// hooks/useFoods.ts - Custom hook with cache checking
 export const useFoods = () => {
   const dispatch = useDispatch();
 
   const fetchFoodById = async (foodId: number) => {
+    // Check cache first
+    const existingFood = store.getState().foods.byId[foodId];
+    
+    if (
+      existingFood?.hasFullData && 
+      existingFood.expiresAt && 
+      existingFood.expiresAt > Date.now()
+    ) {
+      return; // Cache hit - skip API call
+    }
+
+    // Cache miss or expired - fetch from API
     const response = await foodService.getFoodById(foodId);
-    dispatch(setFood(response.data.data));
+    dispatch(setFoodDetail(response.data.data));
   };
 
   return { fetchFoodById };
@@ -261,13 +279,13 @@ const FoodDetailPage = () => {
   const { fetchFoodById } = useFoods();
   const foodId = Number(navigation.getParams().id);
   
-  // Get food from Redux store
+  // Get food from Redux store (reactive)
   const foodData = useSelector((state: RootState) => 
     state.foods.byId[foodId]
   );
 
   useEffect(() => {
-    fetchFoodById(foodId);
+    fetchFoodById(foodId); // Only fetches if not cached or expired
   }, [foodId]);
   
   return <FoodDetailView food={foodData} />;
@@ -276,11 +294,19 @@ const FoodDetailPage = () => {
 
 **Benefits:**
 - Centralized state management with Redux Toolkit
+- Simple caching mechanism reduces unnecessary API calls
+- 24-hour cache expiration for fresh data
 - Custom hooks abstract Redux complexity from components
 - Type-safe with TypeScript
 - Normalized data structure (byId) for efficient lookups
 - Clean separation between data fetching and UI logic
 - Reduced boilerplate with createSlice
+
+**How Caching Works:**
+1. User visits food detail page → checks Redux cache
+2. If cached and not expired → instant display (no API call)
+3. If not cached or expired → fetches from API, stores with expiration timestamp
+4. Subsequent visits within 24 hours → served from cache
 
 ### 6. Theme Persistence with Zustand
 

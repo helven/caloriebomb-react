@@ -24,6 +24,7 @@ export interface Food {
   fiber_g: number,
 
   hasFullData?: boolean,
+  expiresAt?: number,
   status?: 'idle' | 'loading' | 'succeeded' | 'failed',
   [key: string]: any,
 }
