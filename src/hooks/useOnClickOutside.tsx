@@ -16,15 +16,15 @@ function useOnClickOutside(ref, onClose) {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (ref.current) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
 
     // Cleanup phase: remove the event listener when the component unmounts
     return () => {
-      if (ref.current) {
-        document.removeEventListener('mousedown', handleClickOutside);
-      }
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ref, onClose]);
+  }, [ref, onClose]); // ref in dependency to stop ESLint warning even ref is stable
 }
 
 export default useOnClickOutside;
