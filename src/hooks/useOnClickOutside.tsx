@@ -16,9 +16,7 @@ function useOnClickOutside(ref, onClose) {
       }
     };
 
-    if (ref.current) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+    document.addEventListener('mousedown', handleClickOutside);
 
     // Cleanup phase: remove the event listener when the component unmounts
     return () => {
