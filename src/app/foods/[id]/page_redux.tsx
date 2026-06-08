@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigationService } from '@/services/navigation';
 
 // Hooks
-import { useFoods } from '@/hooks/useFoods';
+import { useFoodsRedux } from '@/hooks/useFoodsRedux';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 
 // Utils
@@ -48,7 +48,7 @@ function FoodDetail() {
   // --- Hooks & Context ------------------------------------------------------
   const navigation = useNavigationService();
   const dispatch = useDispatch();
-  const { fetchFoodById } = useFoods();
+  const { fetchFoodById } = useFoodsRedux();
 
   // --- URL State ------------------------------------------------------------
   const foodId = Number(navigation.getParams().id ?? 0);
@@ -63,7 +63,7 @@ function FoodDetail() {
   const [showServingSizeOptions, setShowServingSizeOptions] = useState(false);
 
   // --- Redux Selectors ------------------------------------------------------
-  // Get food data from redux store
+  // Get food data from redux store (reactive)
   const foodData = useSelector((state: RootState) => 
     state.foods.byId[foodId]
   );

@@ -1,6 +1,5 @@
 // 1. React and React ecosystem imports
-import { setFoodDetail, setFoods, setListStatus } from '@/store/slices/foods/foodsSlice';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 // 2. Asset imports
 
@@ -8,11 +7,14 @@ import { useDispatch } from 'react-redux';
 import { foodService } from '@/services/api/food/foodService';
 import { useNavigationService } from '@/services/navigation';
 import type { ApiFoodResponse, Food } from '@/types';
-import store from '@/store/store';
 
 export const useFoods = () => {
   const navigation = useNavigationService();
-  const dispatch = useDispatch();
+
+  // Local state
+  const [foodDetail, setFoodDetail] = useState<Food | null>(null);
+  const [foods, setFoods] = useState<Food[]>([]);
+  const [listStatus, setListStatus] = useState<'idle' | 'loading' | 'succeeded' | 'failed'>('idle');
 
   // Filter, sorting
   const category: string = navigation.getQueryString('category') || '';
@@ -25,7 +27,7 @@ export const useFoods = () => {
   const itemsPerPage: number = Number(navigation.getQueryString('per_page')) || 9;
 
   const fetchFoods = async () => {
-    dispatch(setListStatus('loading'));
+    setListStatus('loading');
 
     try {
       const response = await foodService.getFoods({
@@ -40,21 +42,15 @@ export const useFoods = () => {
       if (!foods.success) {
         return;
       }
-      dispatch(setFoods(foods.data.items));
-      dispatch(setListStatus('succeeded'));
+      setFoods(foods.data.items);
+      setListStatus('succeeded');
     } catch (error) {
-      dispatch(setListStatus('failed'));
+      setListStatus('failed');
       console.error('Error fetching foods: ', error);
     }
   };
 
   const fetchFoodById = async (foodId: number) => {
-    // check existing food
-    const existingFood = store.getState().foods.byId[foodId];
-    if (existingFood && existingFood.hasFullData && (existingFood.expiresAt ?? 0) > Date.now()) {
-      return; // Already cached, skip fetch
-    }
-
     try {
       const response = await foodService.getFoodById(foodId);
       const apiResponse = response.data as ApiFoodResponse;
@@ -64,11 +60,11 @@ export const useFoods = () => {
       }
       const food = apiResponse.data;
 
-      dispatch(setFoodDetail(food));
+      setFoodDetail(food);
     } catch (error) {
       console.error('Error fetching food: ', error);
     }
   };
 
-  return { fetchFoods, fetchFoodById };
+  return { foodDetail, foods, listStatus, fetchFoods, fetchFoodById };
 };
