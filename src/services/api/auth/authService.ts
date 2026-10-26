@@ -2,8 +2,8 @@
 import axios from "axios";
 import { API_ROUTES } from "@/constants/apiRoutes";
 
-const API_CLIENT_ID = import.meta.env.VITE_CLIENT_ID || "";
-const API_CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET || "";
+const API_CLIENT_ID = "";
+const API_CLIENT_SECRET = "";
 
 interface TokenCredentials {
   client_id: string;
