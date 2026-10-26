@@ -3,16 +3,16 @@ import { API_ROUTES } from '@/constants/apiRoutes';
 
 export const foodService = {
   getFoods: ({
-    sortby = 'name',
-    sortorder = 'asc',
-    perpage = 9,
+    sortBy = 'name',
+    sortOrder = 'asc',
+    perPage = 9,
     page = 1,
     category = '',
     search = '',
   }: {
-    sortby?: string;
-    sortorder?: 'asc' | 'desc';
-    perpage?: number;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+    perPage?: number;
     page?: number;
     category?: string;
     search?: string;
@@ -20,9 +20,9 @@ export const foodService = {
     const queryParams = new URLSearchParams();
 
     // Add parameters individually
-    if (sortby) queryParams.append('sortby', sortby);
-    if (sortorder) queryParams.append('sortorder', sortorder);
-    if (perpage) queryParams.append('per_page', perpage.toString());
+    if (sortBy) queryParams.append('sortby', sortBy);
+    if (sortOrder) queryParams.append('sortorder', sortOrder);
+    if (perPage) queryParams.append('per_page', perPage.toString());
     if (page) queryParams.append('page', page.toString());
     if (category) queryParams.append('category_slug', category.toString());
     if (search) queryParams.append('search', search.toString());

@@ -1,6 +1,6 @@
 // @ts-nocheck : JS compatible
 // 1. React and React ecosystem imports
-import { useMemo } from 'react';
+import { memo } from 'react';
 
 // 2. Asset imports
 import { formatNutrient } from '@/utils/formatters';
@@ -64,4 +64,4 @@ function FoodCard({ food }) {
   );
 }
 
-export default FoodCard;
+export default memo(FoodCard);

@@ -1,5 +1,6 @@
 // 1. React and React ecosystem imports
 import { setFoodDetail, setFoods, setListStatus } from '@/store/slices/foods/foodsSlice';
+import { isFreshFood } from '@/store/slices/foods/foodsCache';
 import { useDispatch } from 'react-redux';
 
 // 2. Asset imports
@@ -7,8 +8,8 @@ import { useDispatch } from 'react-redux';
 // 3. Project services and utilities
 import { foodService } from '@/services/api/food/foodService';
 import { useNavigationService } from '@/services/navigation';
-import type { ApiFoodResponse, Food } from '@/types';
 import store from '@/store/store';
+import type { ApiFoodResponse, Food, FoodDetailState } from '@/types';
 
 export const useFoodsRedux = () => {
   const navigation = useNavigationService();
@@ -24,34 +25,39 @@ export const useFoodsRedux = () => {
   const currentPage: number = Number(navigation.getQueryString('page')) || 1;
   const itemsPerPage: number = Number(navigation.getQueryString('per_page')) || 9;
 
-  const fetchFoods = async () => {
+  // Returns the total food count from the API, for the page's Pagination. Returns 0 on failure.
+  const fetchFoods = async (): Promise<number> => {
     dispatch(setListStatus('loading'));
 
     try {
       const response = await foodService.getFoods({
         page: currentPage,
-        perpage: itemsPerPage,
-        sortby: sortBy,
-        sortorder: sortOrder,
+        perPage: itemsPerPage,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
         category: category,
         search: search,
       });
       const foods = response.data as { success: boolean; data: { items: Food[]; total: number } };
       if (!foods.success) {
-        return;
+        // Without this, the status stays 'loading' forever
+        dispatch(setListStatus('failed'));
+        return 0;
       }
       dispatch(setFoods(foods.data.items));
       dispatch(setListStatus('succeeded'));
+      return foods.data.total;
     } catch (error) {
       dispatch(setListStatus('failed'));
       console.error('Error fetching foods: ', error);
+      return 0;
     }
   };
 
   const fetchFoodById = async (foodId: number) => {
     // check existing food
-    const existingFood = store.getState().foods.byId[foodId];
-    if (existingFood && existingFood.hasFullData && (existingFood.expiresAt ?? 0) > Date.now()) {
+    const existingFood: FoodDetailState | undefined = store.getState().foods.foodsById[foodId];
+    if (isFreshFood(existingFood)) {
       return; // Already cached, skip fetch
     }
 

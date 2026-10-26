@@ -7,7 +7,7 @@
 
 // 4. Components and UI elements
 
-function ListingFilter({ className, category, sortBy, sortOrder }) {
+function ListingFilter({ className, categoryHandler, sortBy, sortOrder }) {
 
   return (
     <div
@@ -17,9 +17,9 @@ function ListingFilter({ className, category, sortBy, sortOrder }) {
           <label className="block text-sm font-medium mb-1">Category</label>
           <select
             className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
-            value={category.value}
+            value={categoryHandler.value}
             onChange={(e) => {
-              category.onChange(e);
+              categoryHandler.onChange(e);
             }}
           >
             <option value="">All</option>

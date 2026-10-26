@@ -1,20 +1,18 @@
-// @ts-nocheck : JS compatible
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet } from 'react-router-dom'
 
 //import { useTheme } from "@/hooks/useTheme";
 import { Link } from '@/components/common/Link';
 import useAppStore from '@/stores/useAppStore'
 import Header from '@/layouts/components/Header'
-import Logo from '@/components/Logo'
 
-function MainLayout({ children }) {
+function MainLayout() {
   //const theme = useTheme();
   const { initApp, themeMode } = useAppStore();
 
   useEffect(() => {
     initApp();
-  }, []);
+  }, [initApp]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', themeMode === 'dark');

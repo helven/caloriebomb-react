@@ -12,7 +12,7 @@ export const useFoods = () => {
   const navigation = useNavigationService();
 
   // Local state
-  const [foodDetail, setFoodDetail] = useState<Food | null>(null);
+  const [foodData, setFoodData] = useState<Food | null>(null);
   const [foods, setFoods] = useState<Food[]>([]);
   const [listStatus, setListStatus] = useState<'idle' | 'loading' | 'succeeded' | 'failed'>('idle');
 
@@ -32,9 +32,9 @@ export const useFoods = () => {
     try {
       const response = await foodService.getFoods({
         page: currentPage,
-        perpage: itemsPerPage,
-        sortby: sortBy,
-        sortorder: sortOrder,
+        perPage: itemsPerPage,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
         category: category,
         search: search,
       });
@@ -60,11 +60,11 @@ export const useFoods = () => {
       }
       const food = apiResponse.data;
 
-      setFoodDetail(food);
+      setFoodData(food);
     } catch (error) {
       console.error('Error fetching food: ', error);
     }
   };
 
-  return { foodDetail, foods, listStatus, fetchFoods, fetchFoodById };
+  return { foodData, foods, listStatus, fetchFoods, fetchFoodById };
 };

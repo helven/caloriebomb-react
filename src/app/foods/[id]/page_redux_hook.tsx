@@ -2,27 +2,27 @@
 // -----------------------------------------------------------------------------
 // EXTERNAL DEPENDENCIES
 // -----------------------------------------------------------------------------
-// React
+// --- React ---
 import { useState, useEffect, useRef, useMemo } from 'react';
 
-// State Management
+// --- State Management ---
 import { useSelector, useDispatch } from "react-redux";
 // import { addFoodComparison } from "@/tobe_deleted/foodComparison/slice";
 
 // -----------------------------------------------------------------------------
 // INTERNAL DEPENDENCIES
 // -----------------------------------------------------------------------------
-// Services
+// --- Services ---
 import { useNavigationService } from '@/services/navigation';
 
-// Hooks
+// --- Hooks ---
 import { useFoodsRedux } from '@/hooks/useFoodsRedux';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
 
-// Utils
+// --- Utils ---
 import { formatNutrient } from '@/utils/formatters';
 
-// Components
+// --- Components ---
 import { Link } from '@/components/common/Link';
 import PageHeading from '@/components/common/PageHeading';
 import ArrowProps from '@/components/props/ArrowProps';
@@ -44,16 +44,20 @@ const SERVING_SIZE_OPTIONS = [
 // -----------------------------------------------------------------------------
 // COMPONENT
 // -----------------------------------------------------------------------------
+/**
+ * Food detail page. Reads one food from the Redux store by the URL id and scales
+ * its nutrients to the chosen serving size.
+ */
 function FoodDetail() {
-  // --- Hooks & Context ------------------------------------------------------
+  // --- Hooks & Context ---
   const navigation = useNavigationService();
   const dispatch = useDispatch();
   const { fetchFoodById } = useFoodsRedux();
 
-  // --- URL State ------------------------------------------------------------
+  // --- URL State ---
   const foodId = Number(navigation.getParams().id ?? 0);
 
-  // --- Local State ----------------------------------------------------------
+  // --- Local State ---
   const [showCompareModal, setShowCompareModal] = useState(false);
   const [isComparing, setIsComparing] = useState(false);
   const [compareFood, setCompareFood] = useState(null);
@@ -62,34 +66,34 @@ function FoodDetail() {
   const servingSizeOptionRef = useRef(null);
   const [showServingSizeOptions, setShowServingSizeOptions] = useState(false);
 
-  // --- Redux Selectors ------------------------------------------------------
+  // --- Redux Selectors ---
   // Get food data from redux store (reactive)
-  const foodData = useSelector((state: RootState) => 
-    state.foods.byId[foodId]
-  );
+  const foodState = useSelector((state: RootState) => {
+    return state.foods.foodsById[foodId]?.food
+  });
 
   // Get food comparison data from redux store
   const foodComparison = useSelector((state: RootState) => {
-    return state.foodComparison
+    return state.foods.compareFoodIds
   });
 
-  // --- Derived / Computed ---------------------------------------------------
+  // --- Derived / Computed ---
   const food = useMemo(() => {
-    return foodData ? {
-      ...foodData,
-      serving_calories_kcal: foodData.calories_kcal * (servingSize / 100),
-      serving_protein_g: foodData.protein_g * (servingSize / 100),
-      serving_carbohydrate_g: foodData.carbohydrate_g * (servingSize / 100),
-      serving_fat_g: foodData.fat_g * (servingSize / 100),
-      serving_saturated_fat_g: foodData.saturated_fat_g * (servingSize / 100),
-      serving_monounsaturated_fat_g: foodData.monounsaturated_fat_g * (servingSize / 100),
-      serving_polyunsaturated_fat_g: foodData.polyunsaturated_fat_g * (servingSize / 100),
-      serving_cholesterol_mg: foodData.cholesterol_mg * (servingSize / 100),
-      serving_fiber_g: foodData.fiber_g * (servingSize / 100),
+    return foodState ? {
+      ...foodState,
+      serving_calories_kcal: foodState.calories_kcal * (servingSize / 100),
+      serving_protein_g: foodState.protein_g * (servingSize / 100),
+      serving_carbohydrate_g: foodState.carbohydrate_g * (servingSize / 100),
+      serving_fat_g: foodState.fat_g * (servingSize / 100),
+      serving_saturated_fat_g: foodState.saturated_fat_g * (servingSize / 100),
+      serving_monounsaturated_fat_g: foodState.monounsaturated_fat_g * (servingSize / 100),
+      serving_polyunsaturated_fat_g: foodState.polyunsaturated_fat_g * (servingSize / 100),
+      serving_cholesterol_mg: foodState.cholesterol_mg * (servingSize / 100),
+      serving_fiber_g: foodState.fiber_g * (servingSize / 100),
     } : null
-  }, [foodData, servingSize]);
+  }, [foodState, servingSize]);
 
-  // --- Effects --------------------------------------------------------------
+  // --- Effects ---
   useOnClickOutside(servingSizeOptionRef, () => setShowServingSizeOptions(false));
 
   // Fetch food by ID from API (hook to redux store) on foodId changes
@@ -101,14 +105,15 @@ function FoodDetail() {
     // console.log('Updated state:', foodComparison);
   }, [foodComparison]);
 
-  // --- Handlers -------------------------------------------------------------
+  // --- Handlers ---
   function handleAddToCompare() {
     // dispatch(addFoodComparison(food));
   }
 
-  // --- Render ---------------------------------------------------------------
+  // --- Render ---
   return (
     <>
+      {/* --- Breadcrumb --- */}
       <section className="page-breadcrumb">
         <div className="mb-6 flex justify-between">
           <Link href="/foods" className="flex items-center">
@@ -118,6 +123,7 @@ function FoodDetail() {
         </div>
       </section>
 
+      {/* --- Food Content --- */}
       <div className="max-w-4xl mx-auto grid grid-cols-1 gap-8 mb-8 px-4">
         {(isComparing && food && compareFood) ? (
           <>
@@ -129,11 +135,13 @@ function FoodDetail() {
         ) : food ? (
           /* Food */
           <>
+            {/* --- Heading --- */}
             <PageHeading
               title={food?.name}
               description={food?.description ?? ''}
             />
 
+            {/* --- Thumbnail --- */}
             <section className="food-detail-card shadow-none">
             {food?.image && ''}
             <div
@@ -146,6 +154,7 @@ function FoodDetail() {
               }}></div>
           </section>
 
+            {/* --- Serving Size --- */}
             <section className="food-detail-card p-6">
               <div className="flex items-center justify-between">
                 <label className="font-medium text-lg dark:text-white">Serving Size:</label>
@@ -208,7 +217,7 @@ function FoodDetail() {
                 <div className="bg-card3 p-4 rounded-lg">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Carbs</div>
                   <div className="text-xl font-bold text-yellow-500 flex items-center">
-                    <span className="mr-1">🌾</span>{formatNutrient(food.serving_carbs_g)}g
+                    <span className="mr-1">🌾</span>{formatNutrient(food.serving_carbohydrate_g)}g
                   </div>
                 </div>
                 <div className="bg-card3 p-4 rounded-lg">
