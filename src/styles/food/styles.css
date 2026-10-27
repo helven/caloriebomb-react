@@ -1,11 +1,11 @@
 @layer base {
   .food-card,
   .food-category-card {
-    @apply bg-card1 rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden;
+    @apply overflow-hidden rounded-lg bg-card1 shadow-md transition-shadow hover:shadow-lg;
   }
 
   .food-card .food-thumb {
-    @apply bg-card2 h-48 flex items-center justify-center transition-none;
+    @apply flex h-[18em] items-center justify-center bg-card2 transition-none sm:h-[22em] md:h-[13em] lg:h-[18em];
   }
 
   .food-card .food-name {
@@ -16,7 +16,7 @@
   }
 
   .food-card .food-calories {
-    @apply text-primary font-bold;
+    @apply font-bold text-primary;
   }
 
   .food-card.food-macro {
@@ -27,7 +27,7 @@
     @apply text-sm dark:text-gray-300;
   }
   .food-card .food-category {
-    @apply inline-block bg-card2 text-card2-foreground  rounded-full px-3 py-1 text-xs font-semibold ;
+    @apply inline-block rounded-full bg-card2 px-3 py-1 text-xs font-semibold text-card2-foreground;
   }
 
   .food-category-card .food-category-name {
@@ -35,9 +35,9 @@
   }
 
   .food-detail-card {
-    @apply bg-card1 rounded-lg shadow-md transition-shadow;
+    @apply rounded-lg bg-card1 shadow-md transition-shadow;
   }
   .food-detail-card .food-thumb {
-    @apply bg-card2 rounded-lg h-64 flex items-center justify-center;
+    @apply flex h-[18em] items-center justify-center rounded-lg bg-card2 sm:h-[34em] md:h-[36em];
   }
 }

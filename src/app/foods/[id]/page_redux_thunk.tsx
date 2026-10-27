@@ -24,6 +24,9 @@ import useOnClickOutside from '@/hooks/useOnClickOutside';
 // --- Utils ---
 import { formatNutrient } from '@/utils/formatters';
 
+// --- Constants ---
+import { CDN_MEDIA_URL } from '@/constants/global';
+
 // --- Components ---
 import { Link } from '@/components/common/Link';
 import PageHeading from '@/components/common/PageHeading';
@@ -42,6 +45,8 @@ const SERVING_SIZE_OPTIONS = [
   { value: 10, label: '10g' },
   { value: 1, label: '1g' },
 ];
+
+const FALLBACK_IMG = `${CDN_MEDIA_URL}/assets/images/food/default-thumb.jpg`;
 
 // -----------------------------------------------------------------------------
 // COMPONENT
@@ -66,6 +71,8 @@ function FoodDetail() {
   const [servingSize, setServingSize] = useState(100);
   const servingSizeOptionRef = useRef(null);
   const [showServingSizeOptions, setShowServingSizeOptions] = useState(false);
+
+  const [imgSrc, setImgSrc] = useState(`${CDN_MEDIA_URL}/assets/images/food/${foodId}-thumb.jpg`);
 
   // --- Redux Selectors ---
   // Get food data from redux store (reactive)
@@ -111,6 +118,10 @@ function FoodDetail() {
     // dispatch(addFoodComparison(food));
   }
 
+  function handleImgError() {
+    setImgSrc(FALLBACK_IMG);
+  }
+
   // --- Render ---
   return (
     <>
@@ -146,13 +157,20 @@ function FoodDetail() {
             <section className="food-detail-card shadow-none">
             {food?.image && ''}
             <div
-              className="food-thumb"
+              className="food-thumb relative overflow-hidden"
               style={{
                 backgroundImage: `url('/assets/images/bomb.svg')`,
                 backgroundPosition: `65% 45%`,
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `65%`,
-              }}></div>
+              }}>
+              <img
+                src={imgSrc}
+                alt=""
+                className="absolute top-[45%] h-full max-w-none -translate-y-[45%]"
+                onError={handleImgError}
+              />
+            </div>
           </section>
 
             {/* --- Serving Size --- */}
