@@ -46,7 +46,7 @@ const SERVING_SIZE_OPTIONS = [
   { value: 1, label: '1g' },
 ];
 
-const FALLBACK_IMG = `${CDN_MEDIA_URL}/assets/images/food/default-thumb.jpg`;
+const FALLBACK_IMG = `${CDN_MEDIA_URL}/assets/images/food/default-full.jpg`;
 
 // -----------------------------------------------------------------------------
 // COMPONENT
@@ -72,7 +72,7 @@ function FoodDetail() {
   const servingSizeOptionRef = useRef(null);
   const [showServingSizeOptions, setShowServingSizeOptions] = useState(false);
 
-  const [imgSrc, setImgSrc] = useState(`${CDN_MEDIA_URL}/assets/images/food/${foodId}-thumb.jpg`);
+  const [imgSrc, setImgSrc] = useState(`${CDN_MEDIA_URL}/assets/images/food/${foodId}-full.jpg`);
 
   // --- Redux Selectors ---
   // Get food data from redux store (reactive)
@@ -159,7 +159,6 @@ function FoodDetail() {
             <div
               className="food-thumb relative overflow-hidden"
               style={{
-                backgroundImage: `url('/assets/images/bomb.svg')`,
                 backgroundPosition: `65% 45%`,
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `65%`,
