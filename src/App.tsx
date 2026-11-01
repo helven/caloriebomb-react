@@ -1,17 +1,16 @@
 // 1. React and React ecosystem imports
 //import { useState } from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { useRoutes } from 'react-router-dom'
+import { BrowserRouter, useRoutes } from 'react-router-dom';
 
 // 2. Asset imports
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 
 // 3. Component imports
-import appRoutesConfig from '@/routes/AppRoutes'
+import appRoutesConfig from '@/routes/AppRoutes';
 
 function AppRoutes() {
-  return useRoutes(appRoutesConfig)
+  return useRoutes(appRoutesConfig);
 }
 
 function App() {
@@ -22,4 +21,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

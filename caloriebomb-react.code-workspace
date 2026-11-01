@@ -1,27 +1,27 @@
 {
-	"folders": [
-		{
-			"path": ".",
-			"name": "MAIN DIR"
-		},
-		{
-			"path": "app",
-			"name": "app"
-		},
-		{
-			"path": "components",
-			"name": "components"
-		},
-		{
-			"path": "styles",
-			"name": "css"
-		},
-	],
-	"settings": {
-		"favorites.resources": [],
-		"favorites.sortOrder": "ASC",
-		"svn.enabled": false,
-		"svn.autorefresh": false,
+  "folders": [
+    {
+      "path": ".",
+      "name": "MAIN DIR",
+    },
+    {
+      "path": "app",
+      "name": "app",
+    },
+    {
+      "path": "components",
+      "name": "components",
+    },
+    {
+      "path": "styles",
+      "name": "css",
+    },
+  ],
+  "settings": {
+    "favorites.resources": [],
+    "favorites.sortOrder": "ASC",
+    "svn.enabled": false,
+    "svn.autorefresh": false,
     "[php]": {
       "editor.tabSize": 4,
     },
@@ -40,17 +40,19 @@
     "[jsonc]": {
       "editor.tabSize": 2,
     },
-    "[javascriptreact]": { // For .jsx files
+    "[javascriptreact]": {
+      // For .jsx files
       "editor.tabSize": 2,
     },
     "[typescript]": {
       "editor.tabSize": 2,
     },
-    "[typescriptreact]": { // For .tsx files
+    "[typescriptreact]": {
+      // For .tsx files
       "editor.tabSize": 2,
     },
     "[vue]": {
       "editor.tabSize": 2,
     },
-	}
+  },
 }
