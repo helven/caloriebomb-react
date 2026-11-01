@@ -29,7 +29,7 @@ import ArrowProps from '@/components/props/ArrowProps';
 // -----------------------------------------------------------------------------
 // TYPES
 // -----------------------------------------------------------------------------
-import type { ApiFoodResponse } from "@/types";
+//import type { ApiFoodResponse } from "@/types";
 
 // -----------------------------------------------------------------------------
 // CONSTANTS
@@ -46,7 +46,7 @@ const SERVING_SIZE_OPTIONS = [
 function FoodDetail() {
   // --- Hooks & Context ------------------------------------------------------
   const navigation = useNavigationService();
-  const { foodDetail, fetchFoodById } = useFoods();
+  const { foodData, fetchFoodById } = useFoods();
 
   // --- URL State ------------------------------------------------------------
   const foodId = Number(navigation.getParams().id ?? 0);
@@ -62,19 +62,19 @@ function FoodDetail() {
 
   // --- Derived / Computed ---------------------------------------------------
   const food = useMemo(() => {
-    return foodDetail ? {
-      ...foodDetail,
-      serving_calories_kcal: foodDetail.calories_kcal * (servingSize / 100),
-      serving_protein_g: foodDetail.protein_g * (servingSize / 100),
-      serving_carbohydrate_g: foodDetail.carbohydrate_g * (servingSize / 100),
-      serving_fat_g: foodDetail.fat_g * (servingSize / 100),
-      serving_saturated_fat_g: foodDetail.saturated_fat_g * (servingSize / 100),
-      serving_monounsaturated_fat_g: foodDetail.monounsaturated_fat_g * (servingSize / 100),
-      serving_polyunsaturated_fat_g: foodDetail.polyunsaturated_fat_g * (servingSize / 100),
-      serving_cholesterol_mg: foodDetail.cholesterol_mg * (servingSize / 100),
-      serving_fiber_g: foodDetail.fiber_g * (servingSize / 100),
+    return foodData ? {
+      ...foodData,
+      serving_calories_kcal: foodData.calories_kcal * (servingSize / 100),
+      serving_protein_g: foodData.protein_g * (servingSize / 100),
+      serving_carbohydrate_g: foodData.carbohydrate_g * (servingSize / 100),
+      serving_fat_g: foodData.fat_g * (servingSize / 100),
+      serving_saturated_fat_g: foodData.saturated_fat_g * (servingSize / 100),
+      serving_monounsaturated_fat_g: foodData.monounsaturated_fat_g * (servingSize / 100),
+      serving_polyunsaturated_fat_g: foodData.polyunsaturated_fat_g * (servingSize / 100),
+      serving_cholesterol_mg: foodData.cholesterol_mg * (servingSize / 100),
+      serving_fiber_g: foodData.fiber_g * (servingSize / 100),
     } : null
-  }, [foodDetail, servingSize]);
+  }, [foodData, servingSize]);
 
   // --- Effects --------------------------------------------------------------
   useOnClickOutside(servingSizeOptionRef, () => setShowServingSizeOptions(false));

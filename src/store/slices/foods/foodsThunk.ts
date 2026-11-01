@@ -55,7 +55,7 @@ const fetchFoods = createAsyncThunk(
     return { items: foods, total: total };
   },
   {
-    condition: (_apiUrl: String, { getState }) => {
+    condition: (_apiUrl: string, { getState }) => {
       const rootState = getState() as RootState;
       if (rootState.foods.list.status === 'loading') {
         return false;

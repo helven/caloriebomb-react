@@ -2,7 +2,6 @@
 // 1. React and React ecosystem imports
 
 // 2. Asset imports
-import useAppStore from '@/stores/useAppStore';
 
 // 3. Component imports
 import { useNavigationService } from '@/services/navigation';

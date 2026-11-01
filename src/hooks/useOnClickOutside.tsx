@@ -1,6 +1,6 @@
 // @ts-nocheck : JS compatible
 // 1. React and Next.js core imports
-import { RefObject, useEffect } from 'react';
+import { useEffect } from 'react';
 
 // 2. Third-party library imports
 

@@ -6,10 +6,10 @@ export function useUrlState(param: string, defaultValue: string) {
   const [value, setValue] = useState(() => 
     navigation.getQueryString(param) || defaultValue
   );
+  const urlValue = navigation.getQueryString(param);
 
   // Subscribe to URL changes
   useEffect(() => {
-    const urlValue = navigation.getQueryString(param);
     setValue(urlValue || defaultValue);
   }, [navigation.getQueryString(param)]);
 

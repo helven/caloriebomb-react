@@ -7,8 +7,6 @@
 
 const ArrowProps = ({
   type,
-  disabled = false,
-  onClick,
   variant = 'default'
 }) => {
   // Define different path patterns for each arrow type
@@ -20,11 +18,11 @@ const ArrowProps = ({
   };
 
   // Define different button styles based on variant
-  const buttonStyles = {
-    default: "p-2 rounded-md",
-    circle: "p-2 rounded-full",
-    square: "p-2 w-10 h-10"
-  };
+  //const buttonStyles = {
+  //  default: "p-2 rounded-md",
+  //  circle: "p-2 rounded-full",
+  //  square: "p-2 w-10 h-10"
+  //};
 
   // Different HTML structure based on variant
   if (variant === 'circle') {

@@ -64,9 +64,9 @@ function FoodDetail() {
   const foodId = Number(navigation.getParams().id ?? 0);
 
   // --- Local State ---
-  const [showCompareModal, setShowCompareModal] = useState(false);
-  const [isComparing, setIsComparing] = useState(false);
-  const [compareFood, setCompareFood] = useState(null);
+  //const [showCompareModal, setShowCompareModal] = useState(false);
+  const [isComparing] = useState(false);
+  const [compareFood] = useState(null);
 
   const [servingSize, setServingSize] = useState(100);
   const servingSizeOptionRef = useRef(null);
@@ -81,9 +81,9 @@ function FoodDetail() {
   });
 
   // Get food comparison data from redux store
-  const foodComparison = useSelector((state: RootState) => {
-    return state.foods.compareFoodIds
-  });
+  //const foodComparison = useSelector((state: RootState) => {
+  //  return state.foods.compareFoodIds
+  //});
 
   // --- Derived / Computed ---
   const food = useMemo(() => {
@@ -107,16 +107,16 @@ function FoodDetail() {
   // Fetch food by ID from API (thunk to redux store) on foodId changes
   useEffect(() => {
     dispatch(fetchFoodDetail(foodId));
-  }, [dispatch, foodId]);
+  }, [foodId, dispatch]);
 
-  useEffect(() => {
-    // console.log('Updated state:', foodComparison);
-  }, [foodComparison]);
+  //useEffect(() => {
+  //   console.log('Updated state:', foodComparison);
+  //}, [foodComparison]);
 
   // --- Handlers ---
-  function handleAddToCompare() {
-    // dispatch(addFoodComparison(food));
-  }
+  //function handleAddToCompare() {
+  //   dispatch(addFoodComparison(food));
+  //}
 
   function handleImgError() {
     setImgSrc(FALLBACK_IMG);

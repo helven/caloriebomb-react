@@ -10,8 +10,8 @@ import { useSearch } from '@/hooks/useSearch';
 import { useNavigationService } from '@/services/navigation';
 
 type Props = {
-  redirectTo?: string
-}
+  redirectTo?: string;
+};
 
 function HeaderSearchBar({ redirectTo = '' }: Props) {
   const navigation = useNavigationService();
@@ -20,10 +20,11 @@ function HeaderSearchBar({ redirectTo = '' }: Props) {
     redirectTo,
   });
 
+  const urlSearch = navigation.getQueryString('search');
+
   useEffect(() => {
-    const urlSearch = navigation.getQueryString('search');
     setLocalSearchValue(urlSearch);
-  }, [navigation.getQueryString('search')]);
+  }, [urlSearch, setLocalSearchValue]);
 
   const timerRef = useRef(null);
 

@@ -23,14 +23,13 @@ const useAppStore = create<AppState>((set) => {
   return {
     themeMode: initialTheme, // Set default initial value
     initApp: async () => {
-      let storedTheme;
       // Get the theme from an API
       //const response = await fetch('your-api-endpoint/theme');
       //const data = await response.json();
       //storedTheme = (data.theme as 'light' | 'dark') || initialTheme
 
       // Get the theme from an local storage
-      storedTheme = (localStorage.getItem('themeMode') as 'light' | 'dark') || initialTheme; // if not set, use initialTheme
+      const storedTheme = (localStorage.getItem('themeMode') as 'light' | 'dark') || initialTheme; // if not set, use initialTheme
       set((state) => ({
         ...state,
         themeMode: storedTheme === 'dark' ? 'dark' : 'light',

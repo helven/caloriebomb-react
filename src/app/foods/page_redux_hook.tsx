@@ -68,7 +68,7 @@ function FoodList() {
     };
 
     loadFoods();
-  }, [page, perPage, sortBy, sortOrder, category, search]);
+  }, [page, perPage, sortBy, sortOrder, category, search, fetchFoods]);
 
   // --- Render ---
   return (

@@ -18,11 +18,11 @@ function SearchBar({
   const { performSearch } = useSearch({
     redirectTo
   });
+  const urlSearch = navigation.getQueryString('search');
 
   useEffect(() => {
-    const urlSearch = navigation.getQueryString('search');
     setLocalSearchValue(urlSearch);
-  }, [navigation.getQueryString('search')]);
+  }, [urlSearch, setLocalSearchValue]);
 
   const timerRef = useRef(null);
 

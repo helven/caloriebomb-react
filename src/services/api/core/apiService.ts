@@ -70,12 +70,12 @@ export class ApiService {
     return response;
   }
 
-  async post<T>(url: string, data?: any, config?: AxiosRequestConfig) {
+  async post<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
     const response = await this.api.post<T>(url, data, config);
     return response;
   }
 
-  async put<T>(url: string, data?: any, config?: AxiosRequestConfig) {
+  async put<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
     const response = await this.api.put<T>(url, data, config);
     return response;
   }

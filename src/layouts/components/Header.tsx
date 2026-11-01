@@ -1,5 +1,4 @@
 // @ts-nocheck : JS compatible
-import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 // 2. Asset imports
@@ -13,15 +12,16 @@ import ThemeModeButton from '@/components/ThemeModeButton';
 import HeaderSearchBar from '@/layouts/components/HeaderSearchBar';
 
 function Header() {
-  const [headerSearch, setHeaderSearch] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (headerRef.current) {
-        setIsScrolled(window.scrollY > headerRef.current.offsetHeight);
+      if (!headerRef.current) {
+        return;
       }
+
+      setIsScrolled(window.scrollY > headerRef.current.offsetHeight);
     };
 
     // Run once to set initial state
@@ -32,10 +32,6 @@ function Header() {
     // Cleanup event listener on component unmount
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleHeaderSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    setHeaderSearch(event.target.value);
-  };
 
   return (
     <header
@@ -49,11 +45,11 @@ function Header() {
           <Logo />
         </Link>
 
-        <div className="hidden items-center md:justify-self-center md:flex">
-          <MainNavigation className="hidden md:flex gap-4" />
+        <div className="hidden items-center md:flex md:justify-self-center">
+          <MainNavigation className="hidden gap-4 md:flex" />
         </div>
 
-        <div className="mt-3 flex items-center gap-4 md:justify-self-end md:mt-0">
+        <div className="mt-3 flex items-center gap-4 md:mt-0 md:justify-self-end">
           <div className="relative">
             <HeaderSearchBar redirectTo="/foods" />
           </div>

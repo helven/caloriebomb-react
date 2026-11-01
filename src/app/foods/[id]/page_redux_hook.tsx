@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 
 // --- State Management ---
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, /*useDispatch*/ } from "react-redux";
 // import { addFoodComparison } from "@/tobe_deleted/foodComparison/slice";
 
 // -----------------------------------------------------------------------------
@@ -51,16 +51,16 @@ const SERVING_SIZE_OPTIONS = [
 function FoodDetail() {
   // --- Hooks & Context ---
   const navigation = useNavigationService();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const { fetchFoodById } = useFoodsRedux();
 
   // --- URL State ---
   const foodId = Number(navigation.getParams().id ?? 0);
 
   // --- Local State ---
-  const [showCompareModal, setShowCompareModal] = useState(false);
-  const [isComparing, setIsComparing] = useState(false);
-  const [compareFood, setCompareFood] = useState(null);
+  //const [showCompareModal, setShowCompareModal] = useState(false);
+  //const [isComparing, setIsComparing] = useState(false);
+  //const [compareFood, setCompareFood] = useState(null);
 
   const [servingSize, setServingSize] = useState(100);
   const servingSizeOptionRef = useRef(null);
@@ -99,16 +99,16 @@ function FoodDetail() {
   // Fetch food by ID from API (hook to redux store) on foodId changes
   useEffect(() => {
     fetchFoodById(foodId);
-  }, [foodId]);
+  }, [foodId, fetchFoodById]);
 
   useEffect(() => {
     // console.log('Updated state:', foodComparison);
   }, [foodComparison]);
 
   // --- Handlers ---
-  function handleAddToCompare() {
-    // dispatch(addFoodComparison(food));
-  }
+  //function handleAddToCompare() {
+  //   dispatch(addFoodComparison(food));
+  //}
 
   // --- Render ---
   return (
